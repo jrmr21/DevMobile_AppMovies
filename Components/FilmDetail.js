@@ -18,11 +18,11 @@ class FilmDetail extends React.Component  {
     }
 
     static navigationOptions = {
-        title: 'Detail du film ',
+        title: 'Detail du film',
         headerStyle:{
-            backgroundColor: '#A2273C',
+            backgroundColor: '#383838',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#DCDCDC',
         headerTitleStyle:{
             fontWeight: 'bold' ,           
         }
@@ -146,6 +146,7 @@ const styles = StyleSheet.create( {
       scrollview_container: {
         flex: 1,
         marginBottom: 10,
+        backgroundColor: '#383838'
       },
       image: {
         height: 200,
@@ -160,7 +161,7 @@ const styles = StyleSheet.create( {
         marginRight: 5,
         marginTop: 10,
         marginBottom: 10,
-        color: '#000000',
+        color: '#DCDCDC',
         textAlign: 'center'
       },
       description_text: {
@@ -173,6 +174,7 @@ const styles = StyleSheet.create( {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 5,
+        color: '#DCDCDC'
       }
 });
 

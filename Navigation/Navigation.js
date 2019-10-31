@@ -95,8 +95,9 @@ const MoviesTabNavigator = createBottomTabNavigator(
         tabBarOptions: {
             showLabel: false,
             showIcon: true,
-            activeBackgroundColor: '#f2e33a',
-            inactiveBackgroundColor: '#fff'
+            activeBackgroundColor: '#708090',
+            inactiveBackgroundColor: '#DCDCDC',
+            
 
         }
     }
