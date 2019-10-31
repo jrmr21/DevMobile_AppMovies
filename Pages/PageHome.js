@@ -3,10 +3,10 @@ import {Text,StyleSheet} from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 
-class PagesFavorites extends React.Component {
+class PageHome extends React.Component {
 
     static navigationOptions = {
-        title: 'Mes favoris',
+        title: 'Accueil',
         headerStyle:{
             backgroundColor: '#A2273C',
         },
@@ -20,11 +20,7 @@ class PagesFavorites extends React.Component {
 
         return (
             
-            <FilmList 
-                films = {this.props.favoritesFilm}
-                navigation={this.props.navigation}
-                favoriteList={true}
-            />
+           ''
 
         )
     }
@@ -37,8 +33,8 @@ const styles = StyleSheet.create ({
 
 const mapStateToProps = state => {
     return {
-      favoritesFilm: state.favoritesFilm
+    //   favoritesFilm: state.favoritesFilm
     }
   }
 
-export default connect(mapStateToProps) (PagesFavorites) 
+export default connect(mapStateToProps) (PageHome) 

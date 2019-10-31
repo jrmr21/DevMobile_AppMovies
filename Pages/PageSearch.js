@@ -5,7 +5,7 @@ import FilmLItem from '../Components/FilmItem'
 import {getFimsFromApiWithSearchedText} from '../API/TMDBApi' 
 
 
-class Search extends React.Component {
+class PageSearch extends React.Component {
   //on redefinis le constructeur de Search
   constructor(props){
     super(props)
@@ -121,4 +121,4 @@ const styles1 = StyleSheet.create( {
     }
 });
 
-export default Search ;
+export default PageSearch ;

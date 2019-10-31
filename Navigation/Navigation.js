@@ -1,16 +1,18 @@
-import {createAppContainer} from 'react-navigation'
-import {createBottomTabNavigator} from 'react-navigation-tabs'
-import {createStackNavigator} from 'react-navigation-stack'
-import Search from '../Pages/PageSearch';
+import { createAppContainer } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createStackNavigator } from 'react-navigation-stack'
+import PageSearch from '../Pages/PageSearch'
 import FilmDetail from '../Components/FilmDetail'
-import Favorites from '../Pages/PageFavorites'
-import {Image, StyleSheet} from 'react-native'
-import React from 'react' 
+import PageFavorites from '../Pages/PageFavorites'
+import PageHome from '../Pages/PageHome'
+import PageCalendar from '../Pages/PageCalendar'
+import { Image, StyleSheet } from 'react-native'
+import React from 'react'
 
 const SearchNavigator = createStackNavigator({
 
-    Search: {
-        screen: Search,
+    PageSearch: {
+        screen: PageSearch,
     },
     FilmDetail: {
         screen: FilmDetail,
@@ -19,50 +21,88 @@ const SearchNavigator = createStackNavigator({
 });
 
 const FavoritesStackNavigator = createStackNavigator({
-    Favorites: {
-      screen: Favorites,
+   
+    PageFavorites: {
+        screen: PageFavorites,
     },
     FilmDetail: {
-      screen: FilmDetail
+        screen: FilmDetail
     }
-  })
+})
 
-const MoviesTabNavigator = createBottomTabNavigator (
+const HomeStackNavigator = createStackNavigator({
+    PageHome: {
+        screen: PageHome,
+    },
+    FilmDetail: {
+        screen: FilmDetail
+    }
+})
+const CalendarStackNavigator = createStackNavigator({
+    PageCalendar: {
+        screen: PageCalendar,
+    },
+    FilmDetail: {
+        screen: FilmDetail
+    }
+})
+
+const MoviesTabNavigator = createBottomTabNavigator(
     {
-        Search:{
+        Search: {
             screen: SearchNavigator,
-            navigationOptions:{
-                tabBarIcon:() => {
-                    return <Image 
-                        source = {require('../assets/Search.png')}
-                        style = {styles.icon} />
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../assets/Search.png')}
+                        style={styles.icon} />
                 }
             }
         },
-        Favorites:{
-            screen:FavoritesStackNavigator,
-            navigationOptions:{
-                tabBarIcon:() => {
-                    return <Image 
-                        source = {require('../assets/Favoris.png')}
-                        style = {styles.icon} />
+        Favorites: {
+            screen: FavoritesStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../assets/Favoris.png')}
+                        style={styles.icon} />
+                }
+            }
+        },
+        Home: {
+            screen: FavoritesStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../assets/Favoris.png')}
+                        style={styles.icon} />
+                }
+            }
+        },
+        Calendar: {
+            screen: FavoritesStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../assets/Favoris.png')}
+                        style={styles.icon} />
                 }
             }
         }
     },
     {
-        tabBarOptions:{
+        tabBarOptions: {
             showLabel: false,
             showIcon: true,
             activeBackgroundColor: '#A2273C',
-            inactiveBackgroundColor: '#fff' 
+            inactiveBackgroundColor: '#fff'
 
         }
     }
 )
 
-const styles = StyleSheet.create ({
-    icon:{
+const styles = StyleSheet.create({
+    icon: {
         width: 30,
         height: 30
     }
