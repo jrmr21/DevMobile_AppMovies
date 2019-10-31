@@ -26,7 +26,7 @@ class FilmList extends React.Component {
 
       <FlatList
         style={styles.list}
-        data={this.props.films}//affiche les données la première fois
+        data={this.props.film}//affiche les données la première fois
         extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (

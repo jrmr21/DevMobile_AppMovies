@@ -20,6 +20,7 @@ class PageSearch extends React.Component {
       this.searchedText = ""   
       this._loadFilms = this._loadFilms.bind(this) // ou _loadFilm () => {}
   }
+
   
   _loadFilms () {
     //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
@@ -32,9 +33,7 @@ class PageSearch extends React.Component {
             films: [ ...this.state.films, ...data.results ],
             isLoading: false
           })
-          console.log("load film state",this.state)
       })
-     
     } 
   }
 
