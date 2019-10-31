@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,StyleSheet} from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 import styles from '../UI/Styles'
@@ -8,30 +8,31 @@ class PageHome extends React.Component {
 
     static navigationOptions = {
         title: 'Accueil',
-        headerStyle:{
+        headerStyle: {
             backgroundColor: '#383838',
         },
         headerTintColor: '#fff',
-        headerTitleStyle:{
-            fontWeight: 'bold' ,           
+        headerTitleStyle: {
+            fontWeight: 'bold',
         }
     }
 
-    render(){
+    render() {
 
         return (
-            
-           <Text>HOME</Text>
+
+            <Text>HOME</Text>
 
         )
     }
 }
 
 
-const mapStateToProps = state => {
-    return {
-    //   favoritesFilm: state.favoritesFilm
-    }
-  }
+//je créer cette fonction pour récupérer le state du store
+const mapStateToProps = (stateStore) => {
+    console.log(stateStore);
+    return ({ servMovies: stateStore.theMovieDBReducer.servMovies })
+};
 
-export default connect(mapStateToProps) (PageHome) 
+
+export default connect(mapStateToProps)(PageHome) 

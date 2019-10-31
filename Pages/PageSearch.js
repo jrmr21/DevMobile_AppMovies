@@ -3,9 +3,11 @@ import {View,TextInput,Button,StyleSheet,FlatList,Text,ActivityIndicator} from '
 import FilmList from '../Components/FilmList'
 import FilmLItem from '../Components/FilmItem'
 import {getFimsFromApiWithSearchedText} from '../API/TMDBApi' 
+import { connect } from 'react-redux'
 
 
 class PageSearch extends React.Component {
+
   //on redefinis le constructeur de Search
   constructor(props){
     super(props)
@@ -20,10 +22,11 @@ class PageSearch extends React.Component {
   }
   
   _loadFilms () {
+    console.log(this.props);
     //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
     if (this.searchedText.length > 0) {
       this.setState({ isLoading: true })
-      getFimsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
+      this.props.servMovies.getFimsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
           this.page = data.page
           this.totalPages = data.total_pages
           this.setState({
@@ -93,6 +96,15 @@ class PageSearch extends React.Component {
     }
 }
 
+//je créer cette fonction pour récupérer le state du store
+const mapStateToProps = (stateStore) =>{
+  console.log(stateStore);
+  return({ servMovies : stateStore.theMovieDBReducer.servMovies})
+};
+
+export default connect (mapStateToProps)(PageSearch);
+
+
 const styles1 = StyleSheet.create( {
 
     main_container:{
@@ -121,4 +133,3 @@ const styles1 = StyleSheet.create( {
     }
 });
 
-export default PageSearch ;

@@ -35,10 +35,11 @@ const styles = StyleSheet.create ({
 })
 
 
-const mapStateToProps = state => {
-    return {
-      favoritesFilm: state.favoritesFilm
-    }
-  }
+//je créer cette fonction pour récupérer le state du store
+const mapStateToProps = (stateStore) => {
+    console.log(stateStore);
+    return ({ favoritesFilm: stateStore.toggleFavorite.favoritesFilm })
+};
+
 
 export default connect(mapStateToProps) (PagesFavorites) 
