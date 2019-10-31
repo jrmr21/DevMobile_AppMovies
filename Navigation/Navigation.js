@@ -1,9 +1,9 @@
 import {createAppContainer} from 'react-navigation'
 import {createBottomTabNavigator} from 'react-navigation-tabs'
 import {createStackNavigator} from 'react-navigation-stack'
-import Search from '../Components/Search';
+import Search from '../Pages/PageSearch';
 import FilmDetail from '../Components/FilmDetail'
-import Favorites from '../Components/Favorites'
+import Favorites from '../Pages/PageFavorites'
 import {Image, StyleSheet} from 'react-native'
 import React from 'react' 
 
