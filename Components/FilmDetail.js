@@ -50,7 +50,7 @@ class FilmDetail extends React.Component  {
       // Le film n'est pas dans nos favoris, on n'a pas son détail
       // On appelle l'API pour récupérer son détail
       this.setState({ isLoading: true })
-      getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
+      this.props.servMovies.getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
         this.setState({
           film: data,
           isLoading: false
@@ -84,7 +84,7 @@ class FilmDetail extends React.Component  {
                   
                   <Image 
                     style={styles.image}
-                    source={{uri:getImageFromApi(film.poster_path)}} 
+                    source={{uri:this.props.servMovies.getImageFromApi(film.poster_path)}} 
                   />
                   <Text style={styles.title_text}>{film.title}</Text>
                   <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={()=> this._toggleFavorite()}>
@@ -176,9 +176,10 @@ const styles = StyleSheet.create( {
       }
 });
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (stateStore) =>{
     return {
-        favoritesFilm: state.favoritesFilm 
+        favoritesFilm: stateStore.toggleFavorite.favoritesFilm,
+        servMovies : stateStore.theMovieDBReducer.servMovies 
     } 
 }
 export default connect(mapStateToProps) (FilmDetail);

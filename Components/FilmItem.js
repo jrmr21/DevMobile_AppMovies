@@ -48,7 +48,6 @@ class FilmItem extends React.Component {
 
 //je créer cette fonction pour récupérer le state du store
 const mapStateToProps = (stateStore) =>{
-  console.log(stateStore);
   return({ servMovies : stateStore.theMovieDBReducer.servMovies})
 };
 

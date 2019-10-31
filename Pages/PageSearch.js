@@ -22,7 +22,6 @@ class PageSearch extends React.Component {
   }
   
   _loadFilms () {
-    console.log(this.props);
     //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
     if (this.searchedText.length > 0) {
       this.setState({ isLoading: true })
@@ -33,7 +32,9 @@ class PageSearch extends React.Component {
             films: [ ...this.state.films, ...data.results ],
             isLoading: false
           })
+          console.log("load film state",this.state)
       })
+     
     } 
   }
 
@@ -98,7 +99,6 @@ class PageSearch extends React.Component {
 
 //je créer cette fonction pour récupérer le state du store
 const mapStateToProps = (stateStore) =>{
-  console.log(stateStore);
   return({ servMovies : stateStore.theMovieDBReducer.servMovies})
 };
 
