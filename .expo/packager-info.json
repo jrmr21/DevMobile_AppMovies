@@ -1,0 +1,9 @@
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://vv-pv8.jrmr.devmobile-appmovies.exp.direct",
+  "packagerNgrokUrl": "https://packager.vv-pv8.jrmr.devmobile-appmovies.exp.direct",
+  "ngrokPid": 9473,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 9450
+}
