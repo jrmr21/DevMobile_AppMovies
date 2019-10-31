@@ -2,13 +2,14 @@ import React from 'react'
 import {Text,StyleSheet} from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
+import styles from '../UI/Styles'
 
 class PageHome extends React.Component {
 
     static navigationOptions = {
         title: 'Accueil',
         headerStyle:{
-            backgroundColor: '#A2273C',
+            backgroundColor: '#383838',
         },
         headerTintColor: '#fff',
         headerTitleStyle:{
@@ -20,15 +21,11 @@ class PageHome extends React.Component {
 
         return (
             
-           ''
+           <Text>HOME</Text>
 
         )
     }
 }
-
-const styles = StyleSheet.create ({
-
-})
 
 
 const mapStateToProps = state => {

@@ -9,8 +9,19 @@ import PageCalendar from '../Pages/PageCalendar'
 import { Image, StyleSheet } from 'react-native'
 import React from 'react'
 
+const HomeStackNavigator = createStackNavigator({
+    PageHome: {
+        screen: PageHome,
+    },
+    FilmDetail: {
+        screen: FilmDetail,
+    }
+
+})
+
 const SearchNavigator = createStackNavigator({
 
+    
     PageSearch: {
         screen: PageSearch,
     },
@@ -30,25 +41,25 @@ const FavoritesStackNavigator = createStackNavigator({
     }
 })
 
-const HomeStackNavigator = createStackNavigator({
-    PageHome: {
-        screen: PageHome,
-    },
-    FilmDetail: {
-        screen: FilmDetail
-    }
-})
+
 const CalendarStackNavigator = createStackNavigator({
     PageCalendar: {
         screen: PageCalendar,
     },
-    FilmDetail: {
-        screen: FilmDetail
-    }
 })
 
 const MoviesTabNavigator = createBottomTabNavigator(
     {
+        Home: {
+            screen: HomeStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../assets/Favoris.png')}
+                        style={styles.icon} />
+                }
+            }
+        },
         Search: {
             screen: SearchNavigator,
             navigationOptions: {
@@ -69,18 +80,8 @@ const MoviesTabNavigator = createBottomTabNavigator(
                 }
             }
         },
-        Home: {
-            screen: FavoritesStackNavigator,
-            navigationOptions: {
-                tabBarIcon: () => {
-                    return <Image
-                        source={require('../assets/Favoris.png')}
-                        style={styles.icon} />
-                }
-            }
-        },
         Calendar: {
-            screen: FavoritesStackNavigator,
+            screen: CalendarStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Image
@@ -94,7 +95,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
         tabBarOptions: {
             showLabel: false,
             showIcon: true,
-            activeBackgroundColor: '#A2273C',
+            activeBackgroundColor: '#f2e33a',
             inactiveBackgroundColor: '#fff'
 
         }

@@ -6,7 +6,7 @@ import FilmList from '../Components/FilmList'
 class PageCalendar extends React.Component {
 
     static navigationOptions = {
-        title: 'Mes favoris',
+        title: 'Calendrier',
         headerStyle:{
             backgroundColor: '#A2273C',
         },
@@ -19,8 +19,8 @@ class PageCalendar extends React.Component {
     render(){
 
         return (
-            
-            ''
+             
+            <Text>Calendrier</Text>
         )
     }
 }
