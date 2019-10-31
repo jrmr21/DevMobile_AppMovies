@@ -1,11 +1,12 @@
-import React from 'react'
-import {View,Text,StyleSheet,ActivityIndicator,Image,TouchableOpacity} from 'react-native'
-import {getFilmDetailFromApi} from '../API/TMDBApi' 
-import { ScrollView } from 'react-native-gesture-handler'
-import {getImageFromApi} from '../API/TMDBApi'
-import moment from 'moment'
-import numeral from 'numeral'
-import {connect} from 'react-redux'
+import React                                                            from 'react'
+import {View,Text,StyleSheet,ActivityIndicator,Image,TouchableOpacity}  from 'react-native'
+import Icon                                                             from 'react-native-vector-icons/Ionicons';
+import {getFilmDetailFromApi}                                           from '../API/TMDBApi' ;
+import { ScrollView }                                                   from 'react-native-gesture-handler';
+import {getImageFromApi}                                                from '../API/TMDBApi';
+import moment                                                           from 'moment'
+import numeral                                                          from 'numeral'
+import {connect}                                                        from 'react-redux'
 
 class FilmDetail extends React.Component  {
 
@@ -87,9 +88,18 @@ class FilmDetail extends React.Component  {
                     source={{uri:getImageFromApi(film.poster_path)}} 
                   />
                   <Text style={styles.title_text}>{film.title}</Text>
-                  <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={()=> this._toggleFavorite()}>
-                    {this._displayFavoriteImage()}
-                  </TouchableOpacity>
+
+                  <View style={styles.favorite_container}>
+                    <TouchableOpacity title="Favoris" onPress={()=> this._toggleFavorite()}>
+                      {this._displayFavoriteImage()}
+                      </TouchableOpacity>
+                    
+                    <TouchableOpacity  title="Calendar"  onPress={()=> this.props.navigation.navigate('PageCalendar' , this.props.navigation.state.params)}>
+                      <Icon name="ios-calendar" size={35}/>   
+                    </TouchableOpacity>
+
+                  </View>
+
                   <Text style={styles.description_text}>{film.overview}</Text>
                   <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
                   <Text style={styles.default_text}>Note: {film.vote_average}</Text>
@@ -128,7 +138,10 @@ const styles = StyleSheet.create( {
        
       },
       favorite_container:{
-        alignItems: 'center'
+        alignItems: 'center',
+        flex: 1, 
+        flexDirection: 'row',
+        justifyContent: 'space-around',
       },
       favorite_image:{
         width: 40,

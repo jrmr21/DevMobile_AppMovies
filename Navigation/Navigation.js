@@ -11,16 +11,31 @@ import { Image, StyleSheet } from 'react-native'
 import React from 'react'
 
 
+const FilmDetailNavigator = createStackNavigator(
+    {
+        FilmDetail: {
+            screen: FilmDetail,
+        },
+        PageCalendar: {
+            screen: PageCalendar,
+        },
+    },
+    {
+        initialRouteName    : 'FilmDetail',
+    }
+);
+
 const SearchNavigator = createStackNavigator({
 
     PageSearch: {
         screen: PageSearch,
     },
     FilmDetail: {
-        screen: FilmDetail,
-    }
+        screen: FilmDetailNavigator,
+    },
 
 });
+
 
 const FavoritesStackNavigator = createStackNavigator({
    
@@ -28,8 +43,8 @@ const FavoritesStackNavigator = createStackNavigator({
         screen: PageFavorites,
     },
     FilmDetail: {
-        screen: FilmDetail
-    }
+        screen: FilmDetailNavigator,
+    },
 })
 
 const HomeStackNavigator = createStackNavigator({
@@ -37,16 +52,8 @@ const HomeStackNavigator = createStackNavigator({
         screen: PageHome,
     },
     FilmDetail: {
-        screen: FilmDetail
-    }
-})
-const CalendarStackNavigator = createStackNavigator({
-    PageCalendar: {
-        screen: PageCalendar,
+        screen: FilmDetailNavigator,
     },
-    FilmDetail: {
-        screen: FilmDetail
-    }
 })
 
 const MoviesTabNavigator = createBottomTabNavigator(

@@ -1,12 +1,12 @@
 import React from 'react'
-import {Text,StyleSheet} from 'react-native'
+import {View,Text,StyleSheet,ActivityIndicator,Image,TouchableOpacity}  from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 
 class PageCalendar extends React.Component {
 
     static navigationOptions = {
-        title: 'Mes favoris',
+        title: 'Calendrier',
         headerStyle:{
             backgroundColor: '#A2273C',
         },
@@ -20,7 +20,9 @@ class PageCalendar extends React.Component {
 
         return (
             
-            ''
+            <View>
+                <Text>EXAMPLE</Text>
+            </View>
         )
     }
 }
