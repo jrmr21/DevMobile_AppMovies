@@ -8,6 +8,7 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { addAsync } from '../Store/Actions/FilmsAction';
+import { deleteAsync } from '../Store/Actions/FilmsAction';
 
 class FilmDetail extends React.Component {
 
@@ -16,7 +17,7 @@ class FilmDetail extends React.Component {
       this.state = {
         film: undefined,
         isLoading: false,
-        filmID : "to be set",
+        filmID : "",
       }
   }
 
@@ -42,15 +43,7 @@ class FilmDetail extends React.Component {
 
 
   componentDidMount() {
-    const favoriteFilmIndex = this.props.favoritesFilm.findIndex(item => item.id === this.props.navigation.state.params.idFilm)
-    if (favoriteFilmIndex !== -1) { // Film déjà dans nos favoris, on a déjà son détail
-      // Pas besoin d'appeler l'API ici, on ajoute le détail stocké dans notre state global au state de notre component
-      this.setState({
-        film: this.props.favoritesFilm[favoriteFilmIndex],
-        
-      })
-      return
-    }
+    
     // Le film n'est pas dans nos favoris, on n'a pas son détail
     // On appelle l'API pour récupérer son détail
     this.setState({ isLoading: true })
@@ -60,18 +53,30 @@ class FilmDetail extends React.Component {
         isLoading: false,
         filmID : data.id,
       })
+      console.log("details data",data.id)
+      this._displayFavoriteImage();
     })
   }
 
   _toggleFavorite() {
-    console.log("ToogleFavorite",this.state.filmID);
-    this.props.actions.addFilmFavorite(this.state.filmID);
+    if (this.props.favoritesFilm.includes(this.state.filmID) == true) {
+      this.props.actions.deleteFilmFavorite(this.state.filmID);
+      this.setState({
+        filmID : 0
+      })
+    }else{
+      this.props.actions.addFilmFavorite(this.state.filmID);
+    }
+    this._displayFavoriteImage()
   }
 
   _displayFavoriteImage() {
+    console.log("props film details",this.props.favoritesFilm, " state filmID", this.state.filmID)
+
     let sourceImage = require('../assets/NonFavoris.png')
-    if (this.props.favoritesFilm.findIndex(item => item.id === this.state.film.id) !== -1) {
+    if (this.props.favoritesFilm.includes(this.state.filmID)) {
       sourceImage = require('../assets/Favoris.png')
+
     }
     return (
       <Image
@@ -136,7 +141,8 @@ const mapStateToProps = (stateStore) => {
 
 const mapStateToActions = (payload) => ({
   actions: {
-    addFilmFavorite: bindActionCreators(addAsync, payload)
+    addFilmFavorite: bindActionCreators(addAsync, payload),
+    deleteFilmFavorite : bindActionCreators(deleteAsync,payload)
   }
 })
 

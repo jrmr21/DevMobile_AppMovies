@@ -25,41 +25,13 @@ class PagesFavorites extends React.Component {
         {
             films: [],
             refreshing: false,
-            isLoading:false
+            isLoading: false
         };
-
-    async componentDidMount() {
-        this.props.actions.initFilmsFavorite();
-    }
-
-    _loadFilms() {
-        console.log("page fav props", this.props.favoritesFilm);
-        //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
-        this.setState({ isLoading: true })
-        this.props.servMovies.getFilmWithID(this.props.favoritesFilm).then(data => {
-            this.setState({
-                films: [...this.state.films, ...data.results],
-                isLoading: false
-            })
-            this.props.favoritesFilm.initFilmsFavorite();
-            console.log("state favorite", this.state);
-        }).catch(console.log("ERROR GETTING FAVORITE FILM WITH ID FROM API", this.props.favoritesFilm[0]))
-
-    }
 
     refresh() {
         this.setState({ refreshing: true });
         this.props.actions.initFilmsFavorite();
-        this._loadFilms();
-        console.log("page fav props", this.props.favoritesFilm[0]);
         this.setState({ refreshing: false });
-        /*AsyncStorage.getItem('cities').then((data) => {
-            this.props.navigation.setParams({ count: JSON.parse(data).length });
-            //this.setState({ cities: JSON.parse(data).sort(), refreshing: false });
-            this.props.actions.loadCities(JSON.parse(data));
-            this.setState({ refreshing: false });
-        });*/
-        //this.setState({cities: this.props.cities});
     }
 
     render() {
@@ -67,21 +39,18 @@ class PagesFavorites extends React.Component {
         return (
 
             <View style={{ flex: 1 }}>
-                {/* <NavigationEvents onDidFocus={() => this.refresh()} />
-                <Text>{this.props.favoritesFilm}</Text>
-                <Text>{this.state.films}</Text>
+                <NavigationEvents onDidFocus={() => this.refresh()} />
                 <FlatList data={this.props.favoritesFilm}
-                    refreshControl={<RefreshControl refreshing={this.state.refreshing}
-                        onRefresh={() => this.refresh()} />}
+                    refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />}
                     renderItem={(element) => (
                         <View>
                             <FilmItem
-                                films={this.state.films}
+                                filmID={element.item}
                                 navigation={this.props.navigation}
-                                favoriteList={true}
+                                isFilmFavorite={true}
                             />
                         </View>
-                    )} /> */}
+                    )} />
 
             </View>
 

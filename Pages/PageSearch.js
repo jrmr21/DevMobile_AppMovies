@@ -25,8 +25,10 @@ class PageSearch extends React.Component {
   _loadFilms () {
     //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
     if (this.searchedText.length > 0) {
+      // console.log("loading films for search : ",this.searchedText)
       this.setState({ isLoading: true })
       this.props.servMovies.getFimsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
+        // console.log("data answer :",data)
           this.page = data.page
           this.totalPages = data.total_pages
           this.setState({
@@ -76,6 +78,7 @@ class PageSearch extends React.Component {
   //onSubmitEditing cest pour lancer la recherche des que on tappe ok sur le clavier
   //la fonction _displayLoading est charger a la fin de l'afficharge pour etre sur quil sera par dessus tous
     render (){
+
         return (
             <View style={styles1.main_container}>
                 <TextInput onSubmitEditing = {()=>this._searchFilm()} onChangeText={(text)=>this._searchTextInputChanged(text)} placeholder='Titre du film' style={styles1.textinput}/>

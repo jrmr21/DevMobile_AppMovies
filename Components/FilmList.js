@@ -1,40 +1,39 @@
 import React from 'react'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList,View,Text } from 'react-native'
 import FilmItem from './FilmItem'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
 
 class FilmList extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      films: []
-    }
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     films: []
+  //   }
+  // }
 
-  _displayDetailForFilm = (idFilm) => {
-    console.log("Display film " + idFilm)
-    // On a récupéré les informations de la navigation, on peut afficher le détail du film
-    this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
-  }
+  static propTypes = {
+    films: PropTypes.array.isRequired
+  };
 
   render() {
-    
-
 
     return (
 
       <FlatList
         style={styles.list}
-        data={this.props.film}//affiche les données la première fois
-        extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
-        keyExtractor={(item) => item.id.toString()}
+        data={this.props.films}//affiche les données la première fois
+        // extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
+        // keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <FilmItem
-            film={item}
-            isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
-            displayDetailForFilm={this._displayDetailForFilm}
+            key = {item.item}
+            filmID={item.id}
+            isFilmFavorite={(this.props.favoritesFilm.includes(item.id)) ? true : false}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
+            navigation={this.props.navigation}
           />
+          
         )}
         onEndReachedThreshold={0.5}
         onEndReached={() => {

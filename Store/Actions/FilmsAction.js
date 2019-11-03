@@ -14,7 +14,9 @@ export const initAsync = () => {
     return dispatch => {
         AsyncStorage.getItem('favoritesFilms').then(data => {
             console.log("LISTE DES FILMS STOCKES : ",JSON.parse(data))
-            return dispatch({ type: FILMS_INIT, payload: JSON.parse(data) });
+            if(data != null){
+                return dispatch({ type: FILMS_INIT, payload: JSON.parse(data) });                
+            }
         });
     };
 }
@@ -44,11 +46,11 @@ export const addAsync = (filmID) => {
         );
     }
 }
-export const deleteAsync = (filmName) => {
+export const deleteAsync = (filmID) => {
     return dispatch => {
         AsyncStorage.getItem('favoritesFilms').then(data => {
             const tab = JSON.parse(data);
-            tab.splice(tab.findIndex(e => e === filmName), 1);
+            tab.splice(tab.findIndex(e => e === filmID), 1);
             AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
                 .then(() => {
                     return dispatch({ type: FILMS_INIT, payload: JSON.parse(data) });
