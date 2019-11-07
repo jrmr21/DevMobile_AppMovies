@@ -29,6 +29,7 @@ class PagesFavorites extends React.Component {
         };
 
     refresh() {
+        console.log("Refreshing favorite");
         this.setState({ refreshing: true });
         this.props.actions.initFilmsFavorite();
         this.setState({ refreshing: false });
@@ -40,17 +41,26 @@ class PagesFavorites extends React.Component {
 
             <View style={{ flex: 1 }}>
                 <NavigationEvents onDidFocus={() => this.refresh()} />
-                <FlatList data={this.props.favoritesFilm}
-                    refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.refresh()} />}
-                    renderItem={(element) => (
-                        <View>
-                            <FilmItem
-                                filmID={element.item}
-                                navigation={this.props.navigation}
-                                isFilmFavorite={true}
-                            />
-                        </View>
-                    )} />
+                <FlatList
+                   
+                    data={this.props.favoritesFilm}//affiche les données la première fois
+                    extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
+                    renderItem={( element ) => (
+                        <FilmItem
+                            key={element.item}
+                            filmID={element.item}
+                            isFilmFavorite={true}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
+                            navigation={this.props.navigation}
+                        />
+
+                    )}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={() => {
+                        if (!this.props.faviriteList && this.props.page < this.props.totalPages) {
+                            this.props.loadFilms()
+                        }
+                    }}
+                />
 
             </View>
 

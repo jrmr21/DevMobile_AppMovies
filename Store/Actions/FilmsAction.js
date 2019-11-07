@@ -51,9 +51,11 @@ export const deleteAsync = (filmID) => {
         AsyncStorage.getItem('favoritesFilms').then(data => {
             const tab = JSON.parse(data);
             tab.splice(tab.findIndex(e => e === filmID), 1);
+            console.log("REMOVING FILM ID : ",filmID);
             AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
                 .then(() => {
-                    return dispatch({ type: FILMS_INIT, payload: JSON.parse(data) });
+                    // console.log("returning film action");
+                    return dispatch({ type: FILMS_INIT, payload: tab });
                 });
         });
     };

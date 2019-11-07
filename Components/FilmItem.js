@@ -7,8 +7,12 @@ import { connect } from 'react-redux'
 class FilmItem extends React.Component {
 
 
-  state = {
-    filmInfo : null
+  constructor(props) {
+    super(props),
+      this.state = {
+        filmInfo : null,
+      }
+      this.getFilmInfo();
   }
 
   _displayFavoriteImage() {
@@ -24,16 +28,19 @@ class FilmItem extends React.Component {
   }
 
   componentDidMount(){
-    // console.log("getting info for film ID : ",this.props.filmID);
-    this.props.servMovies.getFilmWithID(this.props.filmID).then( data => {
+   
+  }
+
+  getFilmInfo(){
+     // console.log("getting info for film ID : ",this.props.filmID);
+     this.props.servMovies.getFilmWithID(this.props.filmID).then( data => {
+      
       // console.log('data resp item',data)
       this.setState({
         filmInfo: data,
-        
       })
     });
   }
-
   
   _displayDetailForFilm = (idFilm) => {
     console.log("Display film details " + idFilm)

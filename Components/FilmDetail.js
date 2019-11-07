@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { addAsync } from '../Store/Actions/FilmsAction';
 import { deleteAsync } from '../Store/Actions/FilmsAction';
+import { initAsync } from '../Store/Actions/FilmsAction';
 
 class FilmDetail extends React.Component {
 
@@ -53,25 +54,25 @@ class FilmDetail extends React.Component {
         isLoading: false,
         filmID : data.id,
       })
-      console.log("details data",data.id)
-      this._displayFavoriteImage();
     })
   }
 
   _toggleFavorite() {
+    console.log("TOGGLE ",this.state.filmID);
+
     if (this.props.favoritesFilm.includes(this.state.filmID) == true) {
+      console.log("calling remove from reducer");
       this.props.actions.deleteFilmFavorite(this.state.filmID);
-      this.setState({
-        filmID : 0
-      })
     }else{
+      console.log("calling add from reducer");
       this.props.actions.addFilmFavorite(this.state.filmID);
     }
-    this._displayFavoriteImage()
   }
 
   _displayFavoriteImage() {
-    console.log("props film details",this.props.favoritesFilm, " state filmID", this.state.filmID)
+    // console.log("props film details",this.props.favoritesFilm, " state filmID", this.state.filmID)
+
+    console.log("props favorite film : ",this.props.favoritesFilm)
 
     let sourceImage = require('../assets/NonFavoris.png')
     if (this.props.favoritesFilm.includes(this.state.filmID)) {
@@ -121,7 +122,7 @@ class FilmDetail extends React.Component {
 
   //il ya un soucis avec le displayloading qui ne fonctionne pas
   render() {
-    //  Console.log(this.props) 
+  
     return (
       <View style={styles.main_container}>
         {this._displayLoading()}
@@ -142,7 +143,8 @@ const mapStateToProps = (stateStore) => {
 const mapStateToActions = (payload) => ({
   actions: {
     addFilmFavorite: bindActionCreators(addAsync, payload),
-    deleteFilmFavorite : bindActionCreators(deleteAsync,payload)
+    deleteFilmFavorite : bindActionCreators(deleteAsync,payload),
+    initFilmsFavorite: bindActionCreators(initAsync, payload),
   }
 })
 
