@@ -21,6 +21,66 @@ export const initAsync = () => {
     };
 }
 
+export const rateFilmAsync = (filmID, note) => {
+    console.log("ajout d'une note : ",note," pour le film ",filmID);
+    return dispatch => {
+        AsyncStorage.getItem('favoritesFilms').then(data => {
+            let tab = [];
+            if (data !== null) {
+                tab = JSON.parse(data);
+            }
+
+            let i = 0
+            for(let oneFilm of tab){
+                console.log("one film [0] ",oneFilm[0])
+                if(oneFilm[0] == filmID){
+                    // oneFilm.push([note]);
+                    tab[i][1] = note;
+                }
+                i ++;
+            }
+            
+            AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
+                .then(() => {
+                    console.log("NOTE AJOUTE : ",note);
+                    return dispatch({ type: FILMS_INIT, payload: tab });
+                });
+        }).catch(
+            console.log("CATCH ADD NOTE"), 
+        );
+    }   
+}
+
+export const addCommentaireAsync = (filmID, commentaire) => {
+    console.log("ajout d'un commentaire : ",commentaire," pour le film ",filmID);
+    return dispatch => {
+        AsyncStorage.getItem('favoritesFilms').then(data => {
+            let tab = [];
+            if (data !== null) {
+                tab = JSON.parse(data);
+            }
+            let i = 0
+            for(let oneFilm of tab){
+                console.log("one film [0] ",oneFilm[0])
+                if(oneFilm[0] == filmID){
+                    // oneFilm.push([note]);
+                    console.log('pushing into arrays')
+                    tab[i][2] = commentaire
+                }
+                i ++;
+            }
+            
+            AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
+                .then(() => {
+                    console.log("COMMENTAIRE AJOUTE : ",commentaire);
+                    return dispatch({ type: FILMS_INIT, payload: tab });
+                });
+        }).catch(
+            console.log("CATCH ADD COMMENTAIRE"), 
+        );
+    }   
+}
+
 export const addAsync = (filmID) => {
     console.log("state add async",filmID)
     return dispatch => {
@@ -29,7 +89,7 @@ export const addAsync = (filmID) => {
             if (data !== null) {
                 tab = JSON.parse(data);
             }
-            tab.push(filmID);
+            tab.push([filmID]);
             AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
                 .then(() => {
                     console.log("FILM AJOUTE : ",filmID);
@@ -37,12 +97,6 @@ export const addAsync = (filmID) => {
                 });
         }).catch(
             console.log("CATCH ADD ASYNC"),
-            
-            AsyncStorage.setItem('favoritesFilms', JSON.stringify(filmID))
-                .then(() => {
-                    console.log("FILM AJOUTE : ",filmID);
-                    return dispatch({ type: FILMS_INIT, payload: tab });
-                })
         );
     }
 }
@@ -50,7 +104,14 @@ export const deleteAsync = (filmID) => {
     return dispatch => {
         AsyncStorage.getItem('favoritesFilms').then(data => {
             const tab = JSON.parse(data);
-            tab.splice(tab.findIndex(e => e === filmID), 1);
+            let i = 0;
+            for(let oneFilm of tab){
+                if(oneFilm.includes(filmID)){
+                    tab.splice(i,1)
+                }
+                i++;
+            }
+            // tab.splice(tab.findIndex(e => e === filmID), 1);
             console.log("REMOVING FILM ID : ",filmID);
             AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
                 .then(() => {
