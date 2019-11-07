@@ -1,11 +1,11 @@
 import React from 'react'
-import {View,TextInput,Button,StyleSheet,FlatList,Text,ActivityIndicator} from 'react-native'
+import {View,Image,TextInput,Button,StyleSheet,FlatList,Text,ActivityIndicator,TouchableOpacity} from 'react-native'
 import FilmList from '../Components/FilmList'
-import FilmLItem from '../Components/FilmItem'
-import {getFimsFromApiWithSearchedText} from '../API/TMDBApi' 
+import { connect } from 'react-redux'
 
 
 class PageSearch extends React.Component {
+
   //on redefinis le constructeur de Search
   constructor(props){
     super(props)
@@ -18,18 +18,20 @@ class PageSearch extends React.Component {
       this.searchedText = ""   
       this._loadFilms = this._loadFilms.bind(this) // ou _loadFilm () => {}
   }
+
   
   _loadFilms () {
     //on execute la fonct de rech sur api et on modifie le state avec le resultat de la recherche
     if (this.searchedText.length > 0) {
       this.setState({ isLoading: true })
-      getFimsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
+      this.props.servMovies.getFimsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
           this.page = data.page
           this.totalPages = data.total_pages
           this.setState({
             films: [ ...this.state.films, ...data.results ],
             isLoading: false
           })
+          
       })
     } 
   }
@@ -62,7 +64,7 @@ class PageSearch extends React.Component {
   static navigationOptions = {
     title: 'Rechercher',
     headerStyle:{
-        backgroundColor: '#A2273C',
+        backgroundColor: '#383838',
     },
     headerTintColor: '#fff',
     headerTitleStyle:{
@@ -75,10 +77,18 @@ class PageSearch extends React.Component {
     render (){
         return (
             <View style={styles1.main_container}>
-                <TextInput onSubmitEditing = {()=>this._searchFilm()} onChangeText={(text)=>this._searchTextInputChanged(text)} placeholder='Titre du film' style={styles1.textinput}/>
-                <Button color='#A2273C' title='Recherche' onPress={()=> this._searchFilm()}/>
-      
+                <View style={styles1.header}>
+                  <TextInput onSubmitEditing = {()=>this._searchFilm()} onChangeText={(text)=>this._searchTextInputChanged(text)} placeholder='Titre du film' style={styles1.textinput}/>
+                  <TouchableOpacity onPress={()=> this._searchFilm()} >
+                      <Image  
+                        style={styles1.image}
+                        source={require('../assets/ButtonRecherche.png')}
+                      />
+                  </TouchableOpacity>
+                </View>
+               
                 <FilmList
+
                   films={this.state.films} // C'est bien le component Search qui récupère les films depuis l'API et on les transmet ici pour que le component FilmList les affiche
                   navigation={this.props.navigation} // Ici on transmet les informations de navigation pour permettre au component FilmList de naviguer vers le détail d'un film
                   loadFilms={this._loadFilms} // _loadFilm charge les films suivants, ça concerne l'API, le component FilmList va juste appeler cette méthode quand l'utilisateur aura parcouru tous les films et c'est le component Search qui lui fournira les films suivants
@@ -88,25 +98,43 @@ class PageSearch extends React.Component {
                 />
 
                 {this._displayLoading()}
+               
             </View>
         );
     }
 }
 
+//je créer cette fonction pour récupérer le state du store
+const mapStateToProps = (stateStore) =>{
+  return({ servMovies : stateStore.theMovieDBReducer.servMovies})
+};
+
+export default connect (mapStateToProps)(PageSearch);
+
+
 const styles1 = StyleSheet.create( {
 
     main_container:{
         flex:1,
- 
+        backgroundColor: '#383838'
+    },
+    header:{
+        flexDirection: 'row' ,
+        backgroundColor: '#383838'
     },
 
     textinput:{
-        marginLeft: 3, 
+      flex: 10,
         marginRight:3, 
         height:50, 
-        borderColor:'#000000',
+        borderColor:'#DCDCDC',
         borderWidth:2, 
-        paddingLeft:5
+        paddingLeft:5,
+        color: '#fff'
+    },
+    image:{
+      height: 50,
+      width: 50
     },
 
     loading_container:{
@@ -121,4 +149,3 @@ const styles1 = StyleSheet.create( {
     }
 });
 
-export default PageSearch ;

@@ -1,7 +1,8 @@
 import React from 'react'
 import {View,Text,StyleSheet,Image,TouchableOpacity} from 'react-native'
 import {getImageFromApi} from '../API/TMDBApi'
-
+import { connect } from 'react-redux'
+import FadeIn from '../Animations/FadeIn'
 
 class FilmItem extends React.Component {
 
@@ -20,11 +21,11 @@ class FilmItem extends React.Component {
     render () { 
       const {film,displayDetailForFilm} = this.props
         return  (
-
+              <FadeIn>
                 <TouchableOpacity onPress={()=>{displayDetailForFilm(film.id)}} style = {styles.main_container}>
                   <Image
                     style={styles.image}
-                    source={{uri:getImageFromApi(film.poster_path)}} 
+                    source={{uri:this.props.servMovies.getImageFromApi(film.poster_path)}} 
                   />
                   <View style = {styles.content_container}>
                     <View style = {styles.header_container}>
@@ -40,13 +41,17 @@ class FilmItem extends React.Component {
                     </View>
                   </View>
                 </TouchableOpacity>
-
+              </FadeIn>
         )
     }
 }
 
+//je créer cette fonction pour récupérer le state du store
+const mapStateToProps = (stateStore) =>{
+  return({ servMovies : stateStore.theMovieDBReducer.servMovies})
+};
 
-export default FilmItem
+export default connect (mapStateToProps)(FilmItem);
 
 
 const styles = StyleSheet.create ({
@@ -79,12 +84,13 @@ const styles = StyleSheet.create ({
     fontSize: 15,
     flex: 1,
     flexWrap: 'wrap',
-    paddingRight: 5
+    paddingRight: 5,
+    color: '#fff'
   },
   vote_text: {
     fontWeight: 'bold',
     fontSize: 26,
-    color: '#666666'
+    color: '#fff'
   },
   description_container: {
     flex: 7
@@ -98,7 +104,8 @@ const styles = StyleSheet.create ({
   },
   date_text: {
     textAlign: 'right',
-    fontSize: 14
+    fontSize: 14,
+    color: '#fff'
   }
 
 })

@@ -55,7 +55,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Image
-                        source={require('../assets/Favoris.png')}
+                        source={require('../assets/Accueil.png')}
                         style={styles.icon} />
                 }
             }
@@ -75,8 +75,8 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Image
-                        source={require('../assets/Favoris.png')}
-                        style={styles.icon} />
+                        source={require('../assets/FavorisAcc.png')} 
+                        style={styles.iconFav} />
                 }
             }
         },
@@ -85,7 +85,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Image
-                        source={require('../assets/Favoris.png')}
+                        source={require('../assets/calend.png')}
                         style={styles.icon} />
                 }
             }
@@ -107,6 +107,10 @@ const styles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30
+    },
+    iconFav:{
+        width: 40,
+        height: 40
     }
 })
 export default createAppContainer(MoviesTabNavigator) 
