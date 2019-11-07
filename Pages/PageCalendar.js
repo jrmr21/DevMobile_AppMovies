@@ -3,6 +3,8 @@ import {View,Text,StyleSheet,ActivityIndicator,Image,TouchableOpacity}  from 're
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 
+
+
 class PageCalendar extends React.Component {
 
     static navigationOptions = {
@@ -22,6 +24,10 @@ class PageCalendar extends React.Component {
             
             <View>
                 <Text>EXAMPLE</Text>
+
+                <Calendar
+                    
+                    />
             </View>
         )
     }
