@@ -8,6 +8,7 @@ import PageHome from '../Pages/PageHome'
 import PageCalendar from '../Pages/PageCalendar'
 import { Image, StyleSheet } from 'react-native'
 import React from 'react'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeStackNavigator = createStackNavigator({
     PageHome: {
@@ -54,9 +55,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             screen: HomeStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
-                    return <Image
-                        source={require('../assets/Favoris.png')}
-                        style={styles.icon} />
+                    return <Icon size={25} color={styles.iconColor.color} name={'ios-home'} />
                 }
             }
         },
@@ -64,9 +63,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             screen: SearchNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
-                    return <Image
-                        source={require('../assets/Search.png')}
-                        style={styles.icon} />
+                    return <Icon size={25} color={styles.iconColor.color} name={'ios-search'} />
                 }
             }
         },
@@ -74,9 +71,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             screen: FavoritesStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
-                    return <Image
-                        source={require('../assets/Favoris.png')}
-                        style={styles.icon} />
+                    return <Icon size={25} color={styles.iconColor.color} name={'ios-heart'} />
                 }
             }
         },
@@ -84,9 +79,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
             screen: CalendarStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
-                    return <Image
-                        source={require('../assets/Favoris.png')}
-                        style={styles.icon} />
+                    return <Icon size={25} color={styles.iconColor.color} name={'ios-calendar'} />
                 }
             }
         }
@@ -95,17 +88,17 @@ const MoviesTabNavigator = createBottomTabNavigator(
         tabBarOptions: {
             showLabel: false,
             showIcon: true,
-            activeBackgroundColor: '#f2e33a',
-            inactiveBackgroundColor: '#fff'
+            activeBackgroundColor: '#5e5e5e',
+            inactiveBackgroundColor: '#303030',
+            
 
         }
     }
 )
 
 const styles = StyleSheet.create({
-    icon: {
-        width: 30,
-        height: 30
+    iconColor : {
+        color : "#fff",
     }
 })
 export default createAppContainer(MoviesTabNavigator) 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,StyleSheet} from 'react-native'
+import {Text,StyleSheet,View} from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 
@@ -8,7 +8,7 @@ class PageCalendar extends React.Component {
     static navigationOptions = {
         title: 'Calendrier',
         headerStyle:{
-            backgroundColor: '#A2273C',
+            backgroundColor: '#303030',
         },
         headerTintColor: '#fff',
         headerTitleStyle:{
@@ -19,14 +19,19 @@ class PageCalendar extends React.Component {
     render(){
 
         return (
-             
-            <Text>Calendrier</Text>
+            <View style={styles.container}>
+                <Text>Calendrier</Text>
+            </View> 
+            
         )
     }
 }
 
 const styles = StyleSheet.create ({
-
+    container:{
+        flex: 1,
+        backgroundColor: '#383838'
+    }
 })
 
 

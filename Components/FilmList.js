@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 
 class FilmList extends React.Component {
 
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     films: []
-  //   }
-  // }
+  constructor(props) {
+    super(props)
+    this.state = {
+      films: []
+    }
+   
+  }
 
   static propTypes = {
     films: PropTypes.array.isRequired

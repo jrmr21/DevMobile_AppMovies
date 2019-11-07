@@ -11,4 +11,5 @@ export default (state = initialState, action) => {
 
     //on retourne l'état du réducer qui contient le service
     return state;
+ 
 };

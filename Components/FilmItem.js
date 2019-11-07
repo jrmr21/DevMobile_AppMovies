@@ -1,8 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { getImageFromApi } from '../API/TMDBApi'
 import { connect } from 'react-redux'
-
+import FadeIn from '../Animations/FadeIn'
 
 class FilmItem extends React.Component {
 
@@ -10,9 +9,9 @@ class FilmItem extends React.Component {
   constructor(props) {
     super(props),
       this.state = {
-        filmInfo : null,
+        filmInfo: null,
       }
-      this.getFilmInfo();
+    this.getFilmInfo();
   }
 
   _displayFavoriteImage() {
@@ -27,21 +26,21 @@ class FilmItem extends React.Component {
     }
   }
 
-  componentDidMount(){
-   
+  componentDidMount() {
+
   }
 
-  getFilmInfo(){
-     // console.log("getting info for film ID : ",this.props.filmID);
-     this.props.servMovies.getFilmWithID(this.props.filmID).then( data => {
-      
+  getFilmInfo() {
+    // console.log("getting info for film ID : ",this.props.filmID);
+    this.props.servMovies.getFilmWithID(this.props.filmID).then(data => {
+
       // console.log('data resp item',data)
       this.setState({
         filmInfo: data,
       })
     });
   }
-  
+
   _displayDetailForFilm = (idFilm) => {
     console.log("Display film details " + idFilm)
     // On a récupéré les informations de la navigation, on peut afficher le détail du film
@@ -55,35 +54,37 @@ class FilmItem extends React.Component {
 
     return (
       (this.state.filmInfo != null) ? (
+        <FadeIn>
+          <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
+            <Image
+              style={styles.image}
+              source={{ uri: this.props.servMovies.getImageFromApi(this.state.filmInfo.poster_path) }}
+            />
+            <View style={styles.content_container}>
+              <View style={styles.header_container}>
+                {this._displayFavoriteImage()}
+                <Text style={styles.title_text}> {this.state.filmInfo.title} </Text>
+                <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
+              </View>
+              <View style={styles.description_container}>
+                <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
+              </View>
+              <View style={styles.date_container}>
+                <Text style={styles.date_text}>Sorti le {this.state.filmInfo.release_date}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </FadeIn>
 
-        <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
-        <Image
-          style={styles.image}
-          source={{ uri: this.props.servMovies.getImageFromApi(this.state.filmInfo.poster_path) }}
-        />
-        <View style={styles.content_container}>
-          <View style={styles.header_container}>
-            {this._displayFavoriteImage()}
-            <Text style={styles.title_text}> {this.state.filmInfo.title} </Text>
-            <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
-          </View>
-          <View style={styles.description_container}>
-            <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
-          </View>
-          <View style={styles.date_container}>
-            <Text style={styles.date_text}>Sorti le {this.state.filmInfo.release_date}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
 
       ) : (
-        <View>
-          <Text>
-            WAIT
-          </Text>
-        </View>
-      )
-      
+          <View>
+            {/* <Text>
+              WAIT
+          </Text> */}
+          </View>
+        )
+
 
     )
   }
@@ -127,26 +128,28 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 1,
     flexWrap: 'wrap',
-    paddingRight: 5
+    paddingRight: 5,
+    color: '#fff'
   },
   vote_text: {
     fontWeight: 'bold',
     fontSize: 26,
-    color: '#666666'
+    color: '#fff'
   },
   description_container: {
     flex: 7
   },
   description_text: {
     fontStyle: 'italic',
-    color: '#666666'
+    color: '#c2c2c2'
   },
   date_container: {
     flex: 1
   },
   date_text: {
     textAlign: 'right',
-    fontSize: 14
+    fontSize: 14,
+    color: '#fff'
   }
 
 })

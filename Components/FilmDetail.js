@@ -1,8 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, Image, TouchableOpacity } from 'react-native'
-import { getFilmDetailFromApi } from '../API/TMDBApi'
+import { View, Text,Share, StyleSheet, ActivityIndicator,Animated, Image, TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { getImageFromApi } from '../API/TMDBApi'
 import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
@@ -11,6 +9,8 @@ import { addAsync } from '../Store/Actions/FilmsAction';
 import { deleteAsync } from '../Store/Actions/FilmsAction';
 import { initAsync } from '../Store/Actions/FilmsAction';
 
+import ShareAnimated from '../Animations/ShareAnimated'
+ 
 class FilmDetail extends React.Component {
 
   constructor(props) {
@@ -23,13 +23,36 @@ class FilmDetail extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Detail du film ',
-    headerStyle: {
-      backgroundColor: '#A2273C',
+
+    title: 'Detail du film',
+    headerStyle:{
+        backgroundColor: '#383838',
     },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
+    headerTintColor: '#DCDCDC',
+    headerTitleStyle:{
+        fontWeight: 'bold' ,           
+    } 
+    
+  }
+
+  _shareFilm(){
+    const {film} = this.state
+    Share.share({title: film.title, message: film.overview})
+  }
+
+  _displayFloatingActionButton(){
+    const {film} = this.state
+    if (film != undefined){
+      return(
+        <ShareAnimated>
+        <TouchableOpacity style={styles.share_touchable} onPress={()=>this._shareFilm()} >
+          <Image 
+            style={styles.share_image}
+            source={require('../assets/share.png')}
+          />
+        </TouchableOpacity>
+        </ShareAnimated>
+      )
     }
   }
 
@@ -87,7 +110,7 @@ class FilmDetail extends React.Component {
     )
   }
 
-  _displayFilm() {
+  _displayFilm() {  
     const film = this.state.film
     if (film != undefined) {
       return (
@@ -97,6 +120,7 @@ class FilmDetail extends React.Component {
             style={styles.image}
             source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
           />
+
           <Text style={styles.title_text}>{film.title}</Text>
           <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
             {this._displayFavoriteImage()}
@@ -127,11 +151,11 @@ class FilmDetail extends React.Component {
       <View style={styles.main_container}>
         {this._displayLoading()}
         {this._displayFilm()}
+        {this._displayFloatingActionButton()} 
       </View>
     );
   }
 }
-
 
 const mapStateToProps = (stateStore) => {
   return {
@@ -150,57 +174,74 @@ const mapStateToActions = (payload) => ({
 
 export default connect(mapStateToProps, mapStateToActions)(FilmDetail);
 
-const styles = StyleSheet.create({
+ const styles = StyleSheet.create( {
 
-  main_container: {
-    flex: 1,
-
-  },
-  favorite_container: {
-    alignItems: 'center'
-  },
-  favorite_image: {
-    width: 40,
-    height: 40
-  },
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  scrollview_container: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  image: {
-    height: 200,
-    marginVertical: 5
-  },
-  title_text: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    flex: 1,
-    flexWrap: 'wrap',
-    marginLeft: 3,
-    marginRight: 5,
-    marginTop: 10,
-    marginBottom: 10,
-    color: '#000000',
-    textAlign: 'center'
-  },
-  description_text: {
-    fontStyle: 'italic',
-    color: '#666666',
-    margin: 5,
-    marginBottom: 15
-  },
-  default_text: {
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
-  }
-});
+     main_container: {
+         flex: 1,
+         backgroundColor: '#383838'
+       },
+       favorite_container:{
+         alignItems: 'center'
+       },
+       favorite_image:{
+         width: 40,
+         height: 40
+       },
+       loading_container: {
+         position: 'absolute',
+         left: 0,
+         right: 0,
+         top: 0,
+         bottom: 0,
+         alignItems: 'center',
+         justifyContent: 'center'
+       },
+       scrollview_container: {
+         flex: 1,
+         marginBottom: 10,
+         backgroundColor: '#383838'
+       },
+       image: {
+         height: 200,
+         marginVertical: 5
+       },
+       title_text: {
+         fontWeight: 'bold',
+         fontSize: 20,
+         flex: 1,
+         flexWrap: 'wrap',
+         marginLeft: 3,
+         marginRight: 5,
+         marginTop: 10,
+         marginBottom: 10,
+         color: '#DCDCDC',
+         textAlign: 'center'
+       },
+       description_text: {
+         fontStyle: 'italic',
+         color: '#666666',
+         margin: 5,
+         marginBottom: 15
+       },
+       default_text: {
+         marginLeft: 5,
+         marginRight: 5,
+         marginTop: 5,
+         color: '#DCDCDC'
+       },
+       share_touchable:{
+         position: 'absolute',
+         width: 60,
+         height: 60,
+         right: 30,
+         bottom: 100,
+         borderRadius: 30,
+         backgroundColor: '#DCDCDC',
+         justifyContent: 'center',
+         alignItems: 'center'
+       },
+       share_image:{
+         width:30,
+         height:30
+       }
+ });

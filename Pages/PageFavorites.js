@@ -12,7 +12,7 @@ class PagesFavorites extends React.Component {
     static navigationOptions = {
         title: 'Mes favoris',
         headerStyle: {
-            backgroundColor: '#A2273C',
+            backgroundColor: '#303030',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -39,7 +39,7 @@ class PagesFavorites extends React.Component {
 
         return (
 
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#383838' }}>
                 <NavigationEvents onDidFocus={() => this.refresh()} />
                 <FlatList
                    
@@ -84,3 +84,10 @@ const mapActionsToProps = (payload) => ({
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(PagesFavorites) 
+
+const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        backgroundColor: '#383838'
+    }
+})
