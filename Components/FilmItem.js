@@ -43,7 +43,9 @@ class FilmItem extends React.Component {
       return (
         <View style={{ flexDirection: "row" }}>
           <Icon size={15} style={styles.icon} color="#e2e61c" name={'ios-star'} />
-          <Text style={{ color: "#fff", marginLeft: 10 }}>{rating}</Text>
+          <Text style={{ color: "#fff", marginLeft: 10 }}>
+            {(rating == null) ? 0 : rating}
+          </Text>
 
         </View>
 
@@ -52,7 +54,7 @@ class FilmItem extends React.Component {
   }
 
   componentDidMount() {
-    
+
   }
 
   getFilmInfo() {
