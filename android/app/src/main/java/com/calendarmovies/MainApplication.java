@@ -1,9 +1,11 @@
 package com.calendarmovies;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import com.vonovak.AddCalendarEventPackage;
+
+import com.calendarevents.CalendarEventsPackage;
+//import com.vonovak.AddCalendarEventPackage;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -25,6 +27,8 @@ import expo.modules.filesystem.FileSystemPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.calendarevents.CalendarEventsPackage;
+
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList(),
@@ -41,7 +45,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new AddCalendarEventPackage(),
+          new CalendarEventsPackage(), // <-- Add this line
+            //new AddCalendarEventPackage(),
           new ReanimatedPackage(),
           new RNGestureHandlerPackage(),
           new RNScreensPackage(),
