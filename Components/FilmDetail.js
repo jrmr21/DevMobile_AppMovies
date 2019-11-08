@@ -13,7 +13,7 @@ import { addCommentaireAsync } from '../Store/Actions/FilmsAction';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationEvents } from 'react-navigation';
 import { KeyboardAvoidingView } from 'react-native';
-import {Keyboard} from 'react-native';
+import { Keyboard } from 'react-native';
 
 
 import ShareAnimated from '../Animations/ShareAnimated'
@@ -28,7 +28,7 @@ class FilmDetail extends React.Component {
         filmID: "",
         note: 0,
         comment: "",
-        indexInFavoriteArray:null,
+        indexInFavoriteArray: null,
       }
     this._keyboardDidHide = this._keyboardDidHide.bind(this) // on bind cette contion appelée via un listener pour qu'elle puisse récupérer le state
   }
@@ -48,11 +48,11 @@ class FilmDetail extends React.Component {
 
   //parcour le tableau favoriteFilm récupéré depuis le storage et cherche si un de ses élément contient l'ID du film actuel
   //permet d'être directement lié au réducer du store et que tous les endroits où s'affichent le film soient syncronisés avec les mêmes données
-  isThisFilmStoredInFavortie(){
-    if(this.props.favoritesFilm != null && this.props.favoritesFilm.length != 0){
-      for(let i = 0;i<this.props.favoritesFilm.length;i++){
-        console.log("is it stored : ",this.props.favoritesFilm[i])
-        if(this.props.favoritesFilm[i][0] == this.state.filmID){
+  isThisFilmStoredInFavortie() {
+    if (this.props.favoritesFilm != null && this.props.favoritesFilm.length != 0) {
+      for (let i = 0; i < this.props.favoritesFilm.length; i++) {
+        if (this.props.favoritesFilm[i][0] == this.state.filmID) {
+          console.log("THIS FILM IS STORED")
           return true
         }
       }
@@ -62,10 +62,11 @@ class FilmDetail extends React.Component {
 
   //fonction appelée lors du OnDidFocus(), permet de récupérer le commentaire du film s'il a été saisi dans une autre fenêtre détail du même film
   refresh() {
-    if(this.isThisFilmStoredInFavortie()){
+    if (this.isThisFilmStoredInFavortie()) {
       console.log("REFRESHIG... this film is favorite")
+      console.log("REFRESHIG... comment : ",this.props.favoritesFilm[this.state.indexInFavoriteArray][3])
       this.setState({
-        comment : this.props.favoritesFilm[this.state.indexInFavoriteArray][3]
+        comment: this.props.favoritesFilm[this.state.indexInFavoriteArray][3]
       })
     }
   }
@@ -102,54 +103,57 @@ class FilmDetail extends React.Component {
 
   componentDidMount() {
 
-    this.setState({isLoading : true})
+    this.setState({ isLoading: true })
 
     // On appelle l'API pour récupérer les détails du film
-    if(this.props.navigation.state.params.choix == 0){
+    if (this.props.navigation.state.params.choix == 0) {
 
       this.props.servMovies.getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
         this.setState({
           film: data,
           isLoading: false,
-          filmID : data.id,
+          filmID: data.id,
         })
+
+
       })
-      console.log(this.props)
-    }else{
-     
+    } else {
+
       this.props.servMovies.getSerieDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
         this.setState({
           film: data,
           isLoading: false,
-          filmID : data.id,
+          filmID: data.id,
         })
+
+
       })
-      console.log(this.props) 
     }
-    
+
+    if (this.props.favoritesFilm != null) {
       //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
-      for(let i = 0;i<this.props.favoritesFilm.length;i++){
-        if(this.props.favoritesFilm[i][0] == this.state.filmID){
+      for (let i = 0; i < this.props.favoritesFilm.length; i++) {
+        if (this.props.favoritesFilm[i][0] == this.props.navigation.state.params.idFilm) {
           this.setState({
-            indexInFavoriteArray : i,
+            indexInFavoriteArray: i,
           })
         }
       }
+    }
+
+
 
     //on écoute si le keyboard est caché pour envoyer le commentaire du film saisi
     this.keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       this._keyboardDidHide,
     );
-
-
-    
   }
 
   //le render du composant
   render() {
     return (
-      <KeyboardAvoidingView  behavior="padding" style={styles.main_container} keyboardVerticalOffset={100} enabled>
+      <KeyboardAvoidingView behavior="padding" style={styles.main_container} keyboardVerticalOffset={100} enabled>
         <View style={styles.main_container}>
           {this._displayLoading()}
           {this._displayFilm()}
@@ -169,8 +173,9 @@ class FilmDetail extends React.Component {
 
   //retourne la couleur jaune ou blanche en fonction de la note du film
   _getRatingColor(numeroEtoile) {
-
-    if(this.state.indexInFavoriteArray != null){
+    console.log("GET RATING COLOR, index Favorite : ", this.state.indexInFavoriteArray)
+    if (this.state.indexInFavoriteArray != null) {
+      console.log("get color : ", this.props.favoritesFilm[this.state.indexInFavoriteArray][2]);
       if (this.props.favoritesFilm[this.state.indexInFavoriteArray][2] >= numeroEtoile) {
 
         return "#e2e61c"//jaune
@@ -178,7 +183,7 @@ class FilmDetail extends React.Component {
       else {
         return "#fff"
       }
-    } 
+    }
   }
 
   //affiche les étoiles pour noter le film s'il est stocké en favoris
@@ -218,18 +223,18 @@ class FilmDetail extends React.Component {
     }
     else {
       console.log("calling add from reducer");
-      this.props.actions.addFilmFavorite(this.state.filmID,0);
-      if(this.props.favoritesFilm != null){
+      this.props.actions.addFilmFavorite(this.state.filmID, this.props.navigation.state.params.choix);
+      if (this.props.favoritesFilm != null) {
         this.setState({
-          indexInFavoriteArray : this.props.favoritesFilm.length
+          indexInFavoriteArray: this.props.favoritesFilm.length
         })
       }
-      else{
+      else {
         this.setState({
-          indexInFavoriteArray : 0
+          indexInFavoriteArray: 0
         })
       }
-      
+
     }
   }
 
@@ -254,7 +259,7 @@ class FilmDetail extends React.Component {
     if (this.isThisFilmStoredInFavortie()) {
       return (
         <View>
-          <Text style={[styles.default_text,{ marginTop: 30 }]}>Mon commentaire : </Text>
+          <Text style={[styles.default_text, { marginTop: 30 }]}>Mon commentaire : </Text>
           <TextInput multiline onSubmitEditing={() => this.props.actions.commentFilmFavorite(this.state.filmID, this.state.comment)} onChangeText={(text) => this._commentTextInputChanged(text)} value={this.state.comment} style={styles.textinput} />
         </View>
       )
@@ -282,21 +287,22 @@ class FilmDetail extends React.Component {
     const film = this.state.film
     if (film != undefined) {
 
-      if(this.props.navigation.state.params.choix == 0){
+      if (this.props.navigation.state.params.choix == 0) {
 
         return (
 
           <ScrollView style={styles.scrollview_container}>
-  
+            <NavigationEvents onDidFocus={() => this.refresh()} />
             <Image
               style={styles.image}
               source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
             />
-  
+
             <Text style={styles.title_text}>{film.title}</Text>
             <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
               {this._displayFavoriteImage()}
             </TouchableOpacity>
+            {this._displayRateFilm()}
             <Text style={styles.description_text}>{film.overview}</Text>
             <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
             <Text style={styles.default_text}>Note: {film.vote_average}</Text>
@@ -305,30 +311,31 @@ class FilmDetail extends React.Component {
             <Text style={styles.default_text}>Genre(s): : {film.genres.map(function (genre) {
               return genre.name;
             }).join(" / ")}
-            </Text> 
+            </Text>
             <Text style={styles.default_text}>Companie(s): {film.production_companies.map(function (company) {
               return company.name;
             }).join(" / ")}
-            </Text> 
-  
+            </Text>
+            {this._displayCommentaire()}
           </ScrollView>
         )
 
-      }else{
-        
+      } else {
+
         return (
 
           <ScrollView style={styles.scrollview_container}>
-  
+            <NavigationEvents onDidFocus={() => this.refresh()} />
             <Image
               style={styles.image}
               source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
             />
-  
+
             <Text style={styles.title_text}>{film.name}</Text>
             <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
               {this._displayFavoriteImage()}
             </TouchableOpacity>
+            {this._displayRateFilm()}
             <Text style={styles.description_text}>{film.overview}</Text>
             <Text style={styles.default_text}>Sorti le {moment(new Date(film.first_air_date)).format('DD/MM/YYYY')}</Text>
             <Text style={styles.default_text}>Note: {film.vote_average}</Text>
@@ -338,12 +345,12 @@ class FilmDetail extends React.Component {
             <Text style={styles.default_text}>Genre(s): : {film.genres.map(function (genre) {
               return genre.name;
             }).join(" / ")}
-            </Text> 
+            </Text>
             <Text style={styles.default_text}>Companie(s): {film.production_companies.map(function (company) {
               return company.name;
             }).join(" / ")}
             </Text>
-  
+            {this._displayCommentaire()}
           </ScrollView>
         )
 

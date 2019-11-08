@@ -14,7 +14,7 @@ class FilmItem extends React.Component {
         filmInfo: null,
       }
     this.getFilmInfo();
-    
+
   }
 
   _displayFavoriteImage() {
@@ -33,18 +33,17 @@ class FilmItem extends React.Component {
     if (this.props.isFilmFavorite) {
 
       let rating = 0;
-      console.log("props film ID",this.props.filmID[1])
       //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
       for (let i = 0; i < this.props.favoritesFilm.length; i++) {
-        if (this.props.favoritesFilm[i][0] == this.props.filmID[0]) {
+        if (this.props.favoritesFilm[i][0] == this.props.filmID) {
           rating = this.props.favoritesFilm[i][2]
         }
       }
 
       return (
-        <View style = {{flexDirection:"row"}}> 
+        <View style={{ flexDirection: "row" }}>
           <Icon size={15} style={styles.icon} color="#e2e61c" name={'ios-star'} />
-          <Text style = {{color : "#fff",marginLeft:10}}>{rating}</Text>
+          <Text style={{ color: "#fff", marginLeft: 10 }}>{rating}</Text>
 
         </View>
 
@@ -53,18 +52,18 @@ class FilmItem extends React.Component {
   }
 
   componentDidMount() {
-
+    
   }
 
   getFilmInfo() {
     // console.log("getting info for film ID : ",this.props.filmID);
-    if (this.props.choix==0){
+    if (this.props.choix == 0) {
       this.props.servMovies.getFilmWithID(this.props.filmID).then(data => {
         this.setState({
           filmInfo: data,
         })
       });
-    }else{
+    } else {
       this.props.servMovies.getSerieWithID(this.props.filmID).then(data => {
         this.setState({
           filmInfo: data,
@@ -72,7 +71,7 @@ class FilmItem extends React.Component {
         console.log(this.state.filmInfo)
       });
     }
-   
+
   }
 
   _displayDetailForFilm = (idFilm) => {
@@ -83,11 +82,11 @@ class FilmItem extends React.Component {
   render() {
     // const { film, displayDetailForFilm } = this.props
 
-    if(this.props.choix == 0){
+    if (this.props.choix == 0) {
 
       return (
         (this.state.filmInfo != null) ? (
-          
+
           <FadeIn>
             <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
               <Image
@@ -110,8 +109,8 @@ class FilmItem extends React.Component {
               </View>
             </TouchableOpacity>
           </FadeIn>
-  
-  
+
+
         ) : (
             <View>
               {/* <Text>
@@ -119,15 +118,15 @@ class FilmItem extends React.Component {
             </Text> */}
             </View>
           )
-  
-  
+
+
       )
 
-    }else{
+    } else {
 
       return (
         (this.state.filmInfo != null) ? (
-          
+
           <FadeIn>
             <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
               <Image
@@ -140,17 +139,18 @@ class FilmItem extends React.Component {
                   <Text style={styles.title_text}> {this.state.filmInfo.name} </Text>
                   <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
                 </View>
+                {this._displayRating()}
                 <View style={styles.description_container}>
                   <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
                 </View>
                 <View style={styles.date_container}>
-                  <Text style={styles.date_text}>Sorti le {this.state.filmInfo.first_air_date}</Text> 
+                  <Text style={styles.date_text}>Sorti le {this.state.filmInfo.first_air_date}</Text>
                 </View>
               </View>
             </TouchableOpacity>
           </FadeIn>
-  
-  
+
+
         ) : (
             <View>
               {/* <Text>
@@ -158,13 +158,13 @@ class FilmItem extends React.Component {
             </Text> */}
             </View>
           )
-  
-  
+
+
       )
 
     }
 
- 
+
   }
 }
 
@@ -172,7 +172,8 @@ class FilmItem extends React.Component {
 const mapStateToProps = (stateStore) => {
   return ({
     favoritesFilm: stateStore.toggleFavorite.favoritesFilm,
-    servMovies: stateStore.theMovieDBReducer.servMovies })
+    servMovies: stateStore.theMovieDBReducer.servMovies
+  })
 };
 
 export default connect(mapStateToProps)(FilmItem);

@@ -42,16 +42,16 @@ class PagesFavorites extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#383838' }}>
                 <NavigationEvents onDidFocus={() => this.refresh()} />
                 <FlatList
-                   
+
                     data={this.props.favoritesFilm}//affiche les données la première fois
                     extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
-                    renderItem={( element ) => (
+                    renderItem={(element) => (
                         <FilmItem
                             key={element.item}
-                            filmID={element.item}
+                            filmID={element.item[0]}
                             isFilmFavorite={true}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
                             navigation={this.props.navigation}
-                            choix = {0} //recuperer le choix depuis le storage
+                            choix={element.item[1]} //recuperer le choix depuis le storage
                         />
 
                     )}
@@ -84,10 +84,10 @@ const mapActionsToProps = (payload) => ({
     }
 });
 
-export default connect(mapStateToProps, mapActionsToProps)(PagesFavorites) 
+export default connect(mapStateToProps, mapActionsToProps)(PagesFavorites)
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         backgroundColor: '#383838'
     }

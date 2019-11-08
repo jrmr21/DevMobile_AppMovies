@@ -18,6 +18,19 @@ class FilmList extends React.Component {
     films: PropTypes.array.isRequired
   };
 
+
+  isThisFilmStoredInFavortie(id) {
+    if (this.props.favoritesFilm != null && this.props.favoritesFilm.length != 0) {
+      for (let i = 0; i < this.props.favoritesFilm.length; i++) {
+        if (this.props.favoritesFilm[i][0] == id) {
+          console.log("THIS FILM IS STORED")
+          return true
+        }
+      }
+    }
+    return false
+  }
+
   render() {
 
     return (
@@ -28,10 +41,12 @@ class FilmList extends React.Component {
         extraData={this.props.favoritesFilm}//lie les datas au reducer pour qu'elles puissent être mises à jour
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
+          console.log("item : ",item.id),
+          console.log("this.props.favoritesFilm : ",this.props.favoritesFilm),
           <FilmItem
             key = {item.item}
             filmID={item.id}
-            isFilmFavorite={(this.props.favoritesFilm.includes(item.id)) ? true : false}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
+            isFilmFavorite={(this.isThisFilmStoredInFavortie(item.id)) ? true : false}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
             navigation={this.props.navigation}
             choix = {this.props.choix} 
           />
