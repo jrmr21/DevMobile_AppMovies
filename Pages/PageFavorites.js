@@ -51,6 +51,7 @@ class PagesFavorites extends React.Component {
                             filmID={element.item}
                             isFilmFavorite={true}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
                             navigation={this.props.navigation}
+                            choix = {0} //recuperer le choix depuis le storage
                         />
 
                     )}

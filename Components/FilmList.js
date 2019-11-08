@@ -33,6 +33,7 @@ class FilmList extends React.Component {
             filmID={item.id}
             isFilmFavorite={(this.props.favoritesFilm.includes(item.id)) ? true : false}//cherche si le film fait partie des films favoris et on affiche un petit coeur si oui
             navigation={this.props.navigation}
+            choix = {this.props.choix} 
           />
           
         )}
@@ -40,7 +41,7 @@ class FilmList extends React.Component {
         onEndReached={() => {
           if (!this.props.faviriteList && this.props.page < this.props.totalPages) {
             // On appelle la méthode loadFilm du component Search pour charger plus de films
-            this.props.loadFilms()
+            this.props.loadFilms() 
           }
         }}
       />

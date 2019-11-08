@@ -12,6 +12,7 @@ class FilmItem extends React.Component {
         filmInfo: null,
       }
     this.getFilmInfo();
+    
   }
 
   _displayFavoriteImage() {
@@ -32,61 +33,112 @@ class FilmItem extends React.Component {
 
   getFilmInfo() {
     // console.log("getting info for film ID : ",this.props.filmID);
-    this.props.servMovies.getFilmWithID(this.props.filmID).then(data => {
-
-      // console.log('data resp item',data)
-      this.setState({
-        filmInfo: data,
-      })
-    });
+    if (this.props.choix==0){
+      this.props.servMovies.getFilmWithID(this.props.filmID).then(data => {
+        this.setState({
+          filmInfo: data,
+        })
+      });
+    }else{
+      this.props.servMovies.getSerieWithID(this.props.filmID).then(data => {
+        this.setState({
+          filmInfo: data,
+        })
+        console.log(this.state.filmInfo)
+      });
+    }
+   
   }
 
   _displayDetailForFilm = (idFilm) => {
-    console.log("Display film details " + idFilm)
     // On a récupéré les informations de la navigation, on peut afficher le détail du film
-    this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
+    this.props.navigation.navigate('FilmDetail', { idFilm: idFilm, choix: this.props.choix })
   }
 
   render() {
     // const { film, displayDetailForFilm } = this.props
 
+    if(this.props.choix == 0){
 
-
-    return (
-      (this.state.filmInfo != null) ? (
-        <FadeIn>
-          <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
-            <Image
-              style={styles.image}
-              source={{ uri: this.props.servMovies.getImageFromApi(this.state.filmInfo.poster_path) }}
-            />
-            <View style={styles.content_container}>
-              <View style={styles.header_container}>
-                {this._displayFavoriteImage()}
-                <Text style={styles.title_text}> {this.state.filmInfo.title} </Text>
-                <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
+      return (
+        (this.state.filmInfo != null) ? (
+          
+          <FadeIn>
+            <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
+              <Image
+                style={styles.image}
+                source={{ uri: this.props.servMovies.getImageFromApi(this.state.filmInfo.poster_path) }}
+              />
+              <View style={styles.content_container}>
+                <View style={styles.header_container}>
+                  {this._displayFavoriteImage()}
+                  <Text style={styles.title_text}> {this.state.filmInfo.title} </Text>
+                  <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
+                </View>
+                <View style={styles.description_container}>
+                  <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
+                </View>
+                <View style={styles.date_container}>
+                  <Text style={styles.date_text}>Sorti le {this.state.filmInfo.release_date}</Text>
+                </View>
               </View>
-              <View style={styles.description_container}>
-                <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
-              </View>
-              <View style={styles.date_container}>
-                <Text style={styles.date_text}>Sorti le {this.state.filmInfo.release_date}</Text>
-              </View>
+            </TouchableOpacity>
+          </FadeIn>
+  
+  
+        ) : (
+            <View>
+              {/* <Text>
+                WAIT
+            </Text> */}
             </View>
-          </TouchableOpacity>
-        </FadeIn>
+          )
+  
+  
+      )
 
+    }else{
 
-      ) : (
-          <View>
-            {/* <Text>
-              WAIT
-          </Text> */}
-          </View>
-        )
+      return (
+        (this.state.filmInfo != null) ? (
+          
+          <FadeIn>
+            <TouchableOpacity onPress={() => { this._displayDetailForFilm(this.props.filmID) }} style={styles.main_container}>
+              <Image
+                style={styles.image}
+                source={{ uri: this.props.servMovies.getImageFromApi(this.state.filmInfo.poster_path) }}
+              />
+              <View style={styles.content_container}>
+                <View style={styles.header_container}>
+                  {this._displayFavoriteImage()}
+                  <Text style={styles.title_text}> {this.state.filmInfo.name} </Text>
+                  <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
+                </View>
+                <View style={styles.description_container}>
+                  <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
+                </View>
+                <View style={styles.date_container}>
+                  <Text style={styles.date_text}>Sorti le {this.state.filmInfo.first_air_date}</Text> 
+                </View>
+              </View>
+            </TouchableOpacity>
+          </FadeIn>
+  
+  
+        ) : (
+            <View>
+              {/* <Text>
+                WAIT
+            </Text> */}
+            </View>
+          )
+  
+  
+      )
 
+    }
 
-    )
+ 
   }
 }
 

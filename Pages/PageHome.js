@@ -38,8 +38,8 @@ class PageHome extends React.Component {
       displayDetailForFilm = (idFilm) => {
         console.log("Display film " + idFilm)
         // On a récupéré les informations de la navigation, on peut afficher le détail du film
-        this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
-      }
+        this.props.navigation.navigate('FilmDetail', { idFilm: idFilm, choix: 0 })
+      } 
 
 
     render(){

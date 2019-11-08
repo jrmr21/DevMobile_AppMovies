@@ -71,13 +71,29 @@ class FilmDetail extends React.Component {
     // Le film n'est pas dans nos favoris, on n'a pas son détail
     // On appelle l'API pour récupérer son détail
     this.setState({ isLoading: true })
-    this.props.servMovies.getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
-      this.setState({
-        film: data,
-        isLoading: false,
-        filmID : data.id,
+    if(this.props.navigation.state.params.choix == 0){
+
+      this.props.servMovies.getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
+        this.setState({
+          film: data,
+          isLoading: false,
+          filmID : data.id,
+        })
       })
-    })
+      console.log(this.props)
+    }else{
+     
+      this.props.servMovies.getSerieDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
+        this.setState({
+          film: data,
+          isLoading: false,
+          filmID : data.id,
+        })
+      })
+      console.log(this.props) 
+    }
+    
+
   }
 
   _toggleFavorite() {
@@ -95,13 +111,11 @@ class FilmDetail extends React.Component {
   _displayFavoriteImage() {
     // console.log("props film details",this.props.favoritesFilm, " state filmID", this.state.filmID)
 
-    console.log("props favorite film : ",this.props.favoritesFilm)
-
     let sourceImage = require('../assets/NonFavoris.png')
-    if (this.props.favoritesFilm.includes(this.state.filmID)) {
-      sourceImage = require('../assets/Favoris.png')
+     if (this.props.favoritesFilm.includes(this.state.filmID)) {
+       sourceImage = require('../assets/Favoris.png')
 
-    }
+     } 
     return (
       <Image
         source={sourceImage}
@@ -113,34 +127,74 @@ class FilmDetail extends React.Component {
   _displayFilm() {  
     const film = this.state.film
     if (film != undefined) {
-      return (
-        <ScrollView style={styles.scrollview_container}>
 
-          <Image
-            style={styles.image}
-            source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
-          />
+      if(this.props.navigation.state.params.choix == 0){
 
-          <Text style={styles.title_text}>{film.title}</Text>
-          <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
-            {this._displayFavoriteImage()}
-          </TouchableOpacity>
-          <Text style={styles.description_text}>{film.overview}</Text>
-          <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
-          <Text style={styles.default_text}>Note: {film.vote_average}</Text>
-          <Text style={styles.default_text}>Nombre de vote: {film.vote_count}</Text>
-          <Text style={styles.default_text}>Budget: {numeral(film.budget).format('0,0[.]00 $')}</Text>
-          <Text style={styles.default_text}>Genre(s): : {film.genres.map(function (genre) {
-            return genre.name;
-          }).join(" / ")}
-          </Text>
-          <Text style={styles.default_text}>Companie(s): {film.production_companies.map(function (company) {
-            return company.name;
-          }).join(" / ")}
-          </Text>
+        return (
 
-        </ScrollView>
-      )
+          <ScrollView style={styles.scrollview_container}>
+  
+            <Image
+              style={styles.image}
+              source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
+            />
+  
+            <Text style={styles.title_text}>{film.title}</Text>
+            <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
+              {this._displayFavoriteImage()}
+            </TouchableOpacity>
+            <Text style={styles.description_text}>{film.overview}</Text>
+            <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
+            <Text style={styles.default_text}>Note: {film.vote_average}</Text>
+            <Text style={styles.default_text}>Nombre de vote: {film.vote_count}</Text>
+            <Text style={styles.default_text}>Budget: {numeral(film.budget).format('0,0[.]00 $')}</Text>
+            <Text style={styles.default_text}>Genre(s): : {film.genres.map(function (genre) {
+              return genre.name;
+            }).join(" / ")}
+            </Text> 
+            <Text style={styles.default_text}>Companie(s): {film.production_companies.map(function (company) {
+              return company.name;
+            }).join(" / ")}
+            </Text> 
+  
+          </ScrollView>
+        )
+
+      }else{
+        
+        return (
+
+          <ScrollView style={styles.scrollview_container}>
+  
+            <Image
+              style={styles.image}
+              source={{ uri: this.props.servMovies.getImageFromApi(film.poster_path) }}
+            />
+  
+            <Text style={styles.title_text}>{film.name}</Text>
+            <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
+              {this._displayFavoriteImage()}
+            </TouchableOpacity>
+            <Text style={styles.description_text}>{film.overview}</Text>
+            <Text style={styles.default_text}>Sorti le {moment(new Date(film.first_air_date)).format('DD/MM/YYYY')}</Text>
+            <Text style={styles.default_text}>Note: {film.vote_average}</Text>
+            <Text style={styles.default_text}>Nombre de vote: {film.vote_count}</Text>
+            <Text style={styles.default_text}>Nombre de saison(s): {film.number_of_seasons}</Text>
+            <Text style={styles.default_text}>Nombre d'episode(s): {film.number_of_episodes}</Text>
+            <Text style={styles.default_text}>Genre(s): : {film.genres.map(function (genre) {
+              return genre.name;
+            }).join(" / ")}
+            </Text> 
+            <Text style={styles.default_text}>Companie(s): {film.production_companies.map(function (company) {
+              return company.name;
+            }).join(" / ")}
+            </Text>
+  
+          </ScrollView>
+        )
+
+      }
+
     }
   }
 
