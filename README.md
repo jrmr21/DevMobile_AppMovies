@@ -55,11 +55,12 @@ build android app :
 
 - dans "../node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/CalendarEvents.java"
 	changer 
-		import android.support.v4.app.ActivityCompat;
-		import android.support.v4.content.ContextCompat;
+
+		. import android.support.v4.app.ActivityCompat;
+		. import android.support.v4.content.ContextCompat;
 	en 
-		import androidx.core.app.ActivityCompat;
-		import androidx.core.content.ContextCompat;
+		. import androidx.core.app.ActivityCompat;
+		. import androidx.core.content.ContextCompat;
 
 - Veuillez netoyer les ressources graddle avec la commande
 	./gradlew clean
@@ -74,3 +75,12 @@ build android app :
 	react-native run-android
 
 (source de l'issues : https://github.com/jsierles/react-native-audio/issues/335 )
+
+
+clear cache :
+
+
+  1. Clear watchman watches: `watchman watch-del-all`.
+  2. Delete the `node_modules` folder: `rm -rf node_modules && npm install`.
+  3. Reset Metro Bundler cache: `rm -rf /tmp/metro-bundler-cache-*` or `npm start -- --reset-cache`.
+  4. Remove haste cache: `rm -rf /tmp/haste-map-react-native-packager-*`.. Run CLI with --verbose flag for more details.
