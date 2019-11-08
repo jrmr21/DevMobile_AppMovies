@@ -6,8 +6,26 @@ class TheMovieDBService {
 
   //fonction qui renvoie un film en fonction d'un text
   getFimsFromApiWithSearchedText(text, page) {
-
     const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + text + '&page=' + page
+    return fetch(url)
+      .then((response) => response.json()).catch((error) => console.log(error))
+  }
+  
+  getFimsByGenreFromApiWithSearchedText(page, genre) {
+    const url = 'https://api.themoviedb.org/3/discover/movie?api_key=' + API_TOKEN + '&sort_by=popularity.desc&page=' + page + '&with_genres='+ genre
+    return fetch(url)
+      .then((response) => response.json()).catch((error) => console.log(error))
+  } 
+
+  getSeriesByGenreFromApiWithSearchedText(page, genre) {
+    const url = 'https://api.themoviedb.org/3/discover/tv?api_key=' + API_TOKEN + '&sort_by=popularity.desc&page=' + page + '&with_genres='+ genre
+    return fetch(url)
+      .then((response) => response.json()).catch((error) => console.log(error))
+  } 
+
+  getSeriessFromApiWithSearchedText(text, page) {
+
+    const url = 'https://api.themoviedb.org/3/search/tv?api_key=' + API_TOKEN + '&language=fr&query=' + text + '&page=' + page
     return fetch(url)
       .then((response) => response.json()).catch((error) => console.log(error))
 
@@ -18,7 +36,13 @@ class TheMovieDBService {
     return fetch(url)
       .then((response)=>response.json()).catch((error)=>console.log(error))
     
-}   
+  } 
+  
+  getSerieWithID(id){
+    const url = 'https://api.themoviedb.org/3/tv/'+id+'?api_key=' + API_TOKEN + '&language=fr'
+    return fetch(url)
+      .then((response)=>response.json()).catch((error)=>console.log(error))
+  }
 
 //recuperer liste de film action
 getFimsFromApiWithPopulFilm () {
@@ -38,6 +62,12 @@ getFimsFromApiWithPopulFilm () {
   //fonction pour retourner le detail d'un film
   getFilmDetailFromApi(id) {
     const url = 'https://api.themoviedb.org/3/movie/' + id + '?api_key=' + API_TOKEN + '&language=fr'
+    return fetch(url)
+      .then((response) => response.json()).catch((error) => console.log(error))
+  }
+
+  getSerieDetailFromApi(id) {
+    const url = 'https://api.themoviedb.org/3/tv/' + id + '?api_key=' + API_TOKEN + '&language=fr'
     return fetch(url)
       .then((response) => response.json()).catch((error) => console.log(error))
   }
