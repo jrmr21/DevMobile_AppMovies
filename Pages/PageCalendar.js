@@ -5,6 +5,10 @@ import FilmList from '../Components/FilmList'
 
 
 
+import Calendar_Component from "../Components/Calendar_Component"
+
+
+
 class PageCalendar extends React.Component {
 
     static navigationOptions = {
@@ -19,17 +23,19 @@ class PageCalendar extends React.Component {
     }
 
     render(){
+        const calendar = (<Calendar/>);
 
-        return (
-            
-            <View>
-                <Text>EXAMPLE</Text>
+                
 
-                <Calendar
-                    
-                    />
-            </View>
+                
+            return (
+                <View>
+                    <Text>EXAMPLE</Text>
+                    < Calendar_Component />
+                </View>
         )
+
+ 
     }
 }
 
@@ -43,5 +49,10 @@ const mapStateToProps = state => {
     //   favoritesFilm: state.favoritesFilm
     }
   }
+
+  /*
+<Text>EXAMPLE</Text>
+                < Calendar_Component />
+  */
 
 export default connect(mapStateToProps) (PageCalendar) 
