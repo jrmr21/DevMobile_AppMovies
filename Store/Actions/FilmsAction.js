@@ -36,7 +36,7 @@ export const rateFilmAsync = (filmID, note) => {
             for(let oneFilm of tab){
                 if(oneFilm[0] == filmID){
                     console.log(i);
-                    tab[i][1] = note;
+                    tab[i][2] = note;
                 }
                 i ++;
             }
@@ -66,7 +66,7 @@ export const addCommentaireAsync = (filmID, commentaire) => {
                 if(oneFilm[0] == filmID){
                     // oneFilm.push([note]);
                     console.log('pushing into arrays')
-                    tab[i][2] = commentaire
+                    tab[i][3] = commentaire
                 }
                 i ++;
             }
@@ -82,7 +82,7 @@ export const addCommentaireAsync = (filmID, commentaire) => {
     }   
 }
 
-export const addAsync = (filmID) => {
+export const addAsync = (filmID,type) => {
     console.log("state add async",filmID)
     return dispatch => {
         AsyncStorage.getItem('favoritesFilms').then(data => {
@@ -90,7 +90,8 @@ export const addAsync = (filmID) => {
             if (data !== null) {
                 tab = JSON.parse(data);
             }
-            tab.push([filmID]);
+            let filmToAdd = [filmID,type]
+            tab.push(filmToAdd);
             AsyncStorage.setItem('favoritesFilms', JSON.stringify(tab))
                 .then(() => {
                     console.log("FILM AJOUTE : ",filmID);

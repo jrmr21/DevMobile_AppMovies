@@ -49,9 +49,12 @@ class FilmDetail extends React.Component {
   //parcour le tableau favoriteFilm récupéré depuis le storage et cherche si un de ses élément contient l'ID du film actuel
   //permet d'être directement lié au réducer du store et que tous les endroits où s'affichent le film soient syncronisés avec les mêmes données
   isThisFilmStoredInFavortie(){
-    for(let i = 0;i<this.props.favoritesFilm.length;i++){
-      if(this.props.favoritesFilm[i].includes(this.state.filmID)){
-        return true
+    if(this.props.favoritesFilm != null && this.props.favoritesFilm.length != 0){
+      for(let i = 0;i<this.props.favoritesFilm.length;i++){
+        console.log("is it stored : ",this.props.favoritesFilm[i])
+        if(this.props.favoritesFilm[i][0] == this.state.filmID){
+          return true
+        }
       }
     }
     return false
@@ -62,7 +65,7 @@ class FilmDetail extends React.Component {
     if(this.isThisFilmStoredInFavortie()){
       console.log("REFRESHIG... this film is favorite")
       this.setState({
-        comment : this.props.favoritesFilm[this.state.indexInFavoriteArray][2]
+        comment : this.props.favoritesFilm[this.state.indexInFavoriteArray][3]
       })
     }
   }
@@ -111,7 +114,7 @@ class FilmDetail extends React.Component {
     
       //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
       for(let i = 0;i<this.props.favoritesFilm.length;i++){
-        if(this.props.favoritesFilm[i].includes(this.state.filmID)){
+        if(this.props.favoritesFilm[i][0] == this.state.filmID){
           this.setState({
             indexInFavoriteArray : i,
           })
@@ -151,7 +154,7 @@ class FilmDetail extends React.Component {
   _getRatingColor(numeroEtoile) {
 
     if(this.state.indexInFavoriteArray != null){
-      if (this.props.favoritesFilm[this.state.indexInFavoriteArray][1] >= numeroEtoile) {
+      if (this.props.favoritesFilm[this.state.indexInFavoriteArray][2] >= numeroEtoile) {
 
         return "#e2e61c"//jaune
       }
@@ -198,10 +201,17 @@ class FilmDetail extends React.Component {
     }
     else {
       console.log("calling add from reducer");
-      this.props.actions.addFilmFavorite(this.state.filmID);
-      this.setState({
-        indexInFavoriteArray : this.props.favoritesFilm.length
-      })
+      this.props.actions.addFilmFavorite(this.state.filmID,0);
+      if(this.props.favoritesFilm != null){
+        this.setState({
+          indexInFavoriteArray : this.props.favoritesFilm.length
+        })
+      }
+      else{
+        this.setState({
+          indexInFavoriteArray : 0
+        })
+      }
       
     }
   }

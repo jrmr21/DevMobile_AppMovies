@@ -32,11 +32,11 @@ class FilmItem extends React.Component {
     if (this.props.isFilmFavorite) {
 
       let rating = 0;
-      console.log("props film ID",this.props.filmID)
+      console.log("props film ID",this.props.filmID[1])
       //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
       for (let i = 0; i < this.props.favoritesFilm.length; i++) {
-        if (this.props.favoritesFilm[i].includes(this.props.filmID[1])) {
-          rating = this.props.favoritesFilm[i][1]
+        if (this.props.favoritesFilm[i][0] == this.props.filmID[0]) {
+          rating = this.props.favoritesFilm[i][2]
         }
       }
 
