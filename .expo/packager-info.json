@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": "https://un-ew7.anonymous.devmobile-appmovies.exp.direct",
-  "packagerNgrokUrl": "https://packager.un-ew7.anonymous.devmobile-appmovies.exp.direct",
-  "ngrokPid": 9508
+  "packagerPort": 19001,
+  "packagerPid": 14528,
+  "expoServerNgrokUrl": "https://6x-59u.anonymous.devmobile-appmovies.exp.direct",
+  "packagerNgrokUrl": "https://packager.6x-59u.anonymous.devmobile-appmovies.exp.direct",
+  "ngrokPid": 18380
 }

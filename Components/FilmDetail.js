@@ -13,6 +13,7 @@ import { addCommentaireAsync } from '../Store/Actions/FilmsAction';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationEvents } from 'react-navigation';
 import { KeyboardAvoidingView } from 'react-native';
+import {Keyboard} from 'react-native';
 
 
 import ShareAnimated from '../Animations/ShareAnimated'
@@ -26,9 +27,10 @@ class FilmDetail extends React.Component {
         isLoading: false,
         filmID: "",
         note: 0,
-        isFavorite: false,
-        comment: ""
+        comment: "",
+        indexInFavoriteArray:null,
       }
+    this._keyboardDidHide = this._keyboardDidHide.bind(this) // on bind cette contion appelée via un listener pour qu'elle puisse récupérer le state
   }
 
   static navigationOptions = {
@@ -44,31 +46,34 @@ class FilmDetail extends React.Component {
 
   }
 
-  refresh() {
-    let i = 0;
-    for (let oneFilm of this.props.favoritesFilm) {
+  //parcour le tableau favoriteFilm récupéré depuis le storage et cherche si un de ses élément contient l'ID du film actuel
+  //permet d'être directement lié au réducer du store et que tous les endroits où s'affichent le film soient syncronisés avec les mêmes données
+  isThisFilmStoredInFavortie(){
+    for(let i = 0;i<this.props.favoritesFilm.length;i++){
+      if(this.props.favoritesFilm[i].includes(this.state.filmID)){
+        return true
+      }
+    }
+    return false
+  }
 
-      if (oneFilm.includes(this.state.filmID)) {
-        this.setState({
-          isFavorite: true,
-          note: oneFilm[1],
-          comment: oneFilm[2],
-        })
-      }
-      else if (i == this.props.favoritesFilm.length) {
-        this.setState({
-          isFavorite: false
-        })
-      }
-      i++;
+  //fonction appelée lors du OnDidFocus(), permet de récupérer le commentaire du film s'il a été saisi dans une autre fenêtre détail du même film
+  refresh() {
+    if(this.isThisFilmStoredInFavortie()){
+      console.log("REFRESHIG... this film is favorite")
+      this.setState({
+        comment : this.props.favoritesFilm[this.state.indexInFavoriteArray][2]
+      })
     }
   }
 
+  //fonction appelée lorsqu'on appuie sur le bouton pour partager le film
   _shareFilm() {
     const { film } = this.state
     Share.share({ title: film.title, message: film.overview })
   }
 
+  //affiche le bouton de partage
   _displayFloatingActionButton() {
     const { film } = this.state
     if (film != undefined) {
@@ -94,8 +99,7 @@ class FilmDetail extends React.Component {
 
   componentDidMount() {
 
-    // Le film n'est pas dans nos favoris, on n'a pas son détail
-    // On appelle l'API pour récupérer son détail
+    // On appelle l'API pour récupérer les détails du film
     this.setState({ isLoading: true })
     this.props.servMovies.getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
       this.setState({
@@ -103,18 +107,39 @@ class FilmDetail extends React.Component {
         isLoading: false,
         filmID: data.id,
       })
-
-      for (let oneFilm of this.props.favoritesFilm) {
-        if (oneFilm.includes(this.state.filmID)) {
-          console.log("CE FILM EST FAVORIS")
+      this.setState({ isLoading: false })
+    
+      //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
+      for(let i = 0;i<this.props.favoritesFilm.length;i++){
+        if(this.props.favoritesFilm[i].includes(this.state.filmID)){
           this.setState({
-            isFavorite: true
+            indexInFavoriteArray : i,
           })
         }
       }
     })
+
+    //on écoute si le keyboard est caché pour envoyer le commentaire du film saisi
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
   }
 
+  //le render du composant
+  render() {
+    return (
+      <KeyboardAvoidingView  behavior="padding" style={styles.main_container} keyboardVerticalOffset={100} enabled>
+        <View style={styles.main_container}>
+          {this._displayLoading()}
+          {this._displayFilm()}
+          {this._displayFloatingActionButton()}
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
+
+  //fonction appelée lorsqu'on clique sur une étoile, appelle un réducer avec la note choisie
   rateFilmFavorite(note) {
     this.props.actions.rateFilmFavorite(this.state.filmID, note);
     this.setState({
@@ -122,21 +147,24 @@ class FilmDetail extends React.Component {
     })
   }
 
+  //retourne la couleur jaune ou blanche en fonction de la note du film
   _getRatingColor(numeroEtoile) {
 
-    if (this.state.note >= numeroEtoile) {
+    if(this.state.indexInFavoriteArray != null){
+      if (this.props.favoritesFilm[this.state.indexInFavoriteArray][1] >= numeroEtoile) {
 
-      return "#e2e61c"//jaune
-    }
-    else {
-      return "#fff"
-    }
+        return "#e2e61c"//jaune
+      }
+      else {
+        return "#fff"
+      }
+    } 
   }
 
+  //affiche les étoiles pour noter le film s'il est stocké en favoris
   _displayRateFilm() {
-
     return (
-      (this.state.isFavorite) ? (
+      (this.isThisFilmStoredInFavortie()) ? (
         <View style={{ flexDirection: "row", marginTop: 15, alignContent: "center", justifyContent: "center", marginBottom: 15 }}>
           <TouchableOpacity title="Note" onPress={() => this.rateFilmFavorite(1)}>
             <Icon size={30} style={styles.icon} color={this._getRatingColor(1)} name={'ios-star'} />
@@ -160,36 +188,29 @@ class FilmDetail extends React.Component {
     )
   }
 
-
+  //ajoute ou supprime ce film des favoris
   _toggleFavorite() {
     console.log("TOGGLE ", this.state.filmID);
 
-    if (this.state.isFavorite) {
+    if (this.isThisFilmStoredInFavortie()) {
       console.log("calling remove from reducer");
       this.props.actions.deleteFilmFavorite(this.state.filmID);
-      this.setState({
-        isFavorite: false
-      })
     }
     else {
       console.log("calling add from reducer");
       this.props.actions.addFilmFavorite(this.state.filmID);
       this.setState({
-        isFavorite: true
+        indexInFavoriteArray : this.props.favoritesFilm.length
       })
-      this.rateFilmFavorite(this.state.note)
-      this.props.actions.commentFilmFavorite(this.state.filmID, this.state.comment);
+      
     }
   }
 
+  //affiche un coeur rempli ou pas pour le favoris
   _displayFavoriteImage() {
-    // console.log("props film details",this.props.favoritesFilm, " state filmID", this.state.filmID)
-
-    console.log("props favorite film : ", this.props.favoritesFilm)
-
     sourceImage = require('../assets/NonFavoris.png');
 
-    if (this.state.isFavorite) {
+    if (this.isThisFilmStoredInFavortie()) {
       sourceImage = require('../assets/Favoris.png');
     }
     return (
@@ -200,10 +221,10 @@ class FilmDetail extends React.Component {
     )
   }
 
-
+  //retourne une zone pour saisir un commentaire du film
   _displayCommentaire() {
 
-    if (this.state.isFavorite) {
+    if (this.isThisFilmStoredInFavortie()) {
       return (
         <View>
           <Text style={[styles.default_text,{ marginTop: 30 }]}>Mon commentaire : </Text>
@@ -223,10 +244,18 @@ class FilmDetail extends React.Component {
     this.props.actions.commentFilmFavorite(this.state.filmID, this.state.comment);
   }
 
+  //si le clavier se cache, on envoie la dernière valeur du state dans le storage (afin de ne pas perdre la dernière lettre)
+  _keyboardDidHide() {
+    // console.log("sate keyboard : ",this.state.comment);
+    this._commentTextInputChanged(this.state.comment);
+  }
+
+  //affiche les infos du détail du film
   _displayFilm() {
     const film = this.state.film
     if (film != undefined) {
       return (
+       
         <ScrollView style={styles.scrollview_container}>
           <NavigationEvents onDidFocus={() => this.refresh()} />
           <Image
@@ -258,22 +287,8 @@ class FilmDetail extends React.Component {
       )
     }
   }
-
-  //il ya un soucis avec le displayloading qui ne fonctionne pas
-  render() {
-    console.log("is this film favorite ? : ", this.state.isFavorite)
-    return (
-      <KeyboardAvoidingView  behavior="padding" style={styles.main_container} keyboardVerticalOffset={100} enabled>
-        <View style={styles.main_container}>
-          {this._displayLoading()}
-          {this._displayFilm()}
-          {this._displayFloatingActionButton()}
-        </View>
-      </KeyboardAvoidingView>
-
-    );
-  }
 }
+
 
 const mapStateToProps = (stateStore) => {
   return {
@@ -348,7 +363,7 @@ const styles = StyleSheet.create({
   },
   description_text: {
     fontStyle: 'italic',
-    color: '#666666',
+    color: '#c2c2c2',
     margin: 5,
     marginBottom: 15
   },

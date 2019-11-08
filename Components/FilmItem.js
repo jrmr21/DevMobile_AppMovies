@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import FadeIn from '../Animations/FadeIn'
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 class FilmItem extends React.Component {
 
@@ -22,6 +24,29 @@ class FilmItem extends React.Component {
           style={styles.favorite_image}
           source={require('../assets/Favoris.png')}
         />
+      )
+    }
+  }
+
+  _displayRating() {
+    if (this.props.isFilmFavorite) {
+
+      let rating = 0;
+      console.log("props film ID",this.props.filmID)
+      //on refarde si le film est un film favoris et on récupère son index dans le tableau favoriteFilm pour pouvoir lier les composants directement au store
+      for (let i = 0; i < this.props.favoritesFilm.length; i++) {
+        if (this.props.favoritesFilm[i].includes(this.props.filmID[1])) {
+          rating = this.props.favoritesFilm[i][1]
+        }
+      }
+
+      return (
+        <View style = {{flexDirection:"row"}}> 
+          <Icon size={15} style={styles.icon} color="#e2e61c" name={'ios-star'} />
+          <Text style = {{color : "#fff",marginLeft:10}}>{rating}</Text>
+
+        </View>
+
       )
     }
   }
@@ -66,6 +91,7 @@ class FilmItem extends React.Component {
                 <Text style={styles.title_text}> {this.state.filmInfo.title} </Text>
                 <Text style={styles.vote_text}>{this.state.filmInfo.vote_average}</Text>
               </View>
+              {this._displayRating()}
               <View style={styles.description_container}>
                 <Text style={styles.description_text} numberOfLines={6}> {this.state.filmInfo.overview} </Text>
               </View>
@@ -92,7 +118,9 @@ class FilmItem extends React.Component {
 
 //je créer cette fonction pour récupérer le state du store
 const mapStateToProps = (stateStore) => {
-  return ({ servMovies: stateStore.theMovieDBReducer.servMovies })
+  return ({
+    favoritesFilm: stateStore.toggleFavorite.favoritesFilm,
+    servMovies: stateStore.theMovieDBReducer.servMovies })
 };
 
 export default connect(mapStateToProps)(FilmItem);
@@ -120,7 +148,7 @@ const styles = StyleSheet.create({
     margin: 5
   },
   header_container: {
-    flex: 3,
+    flex: 2.5,
     flexDirection: 'row'
   },
   title_text: {
@@ -150,6 +178,9 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 14,
     color: '#fff'
+  },
+  icon: {
+    marginTop: 0,
+    marginLeft: 0,
   }
-
 })
