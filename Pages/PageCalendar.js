@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {Text,StyleSheet,View} from 'react-native'
 import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
+
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+
 
 class PageCalendar extends React.Component {
 
@@ -16,12 +19,36 @@ class PageCalendar extends React.Component {
         }
     }
 
+    constructor(props) 
+    {
+        super(props);
+    }
+
+    state = {
+        selected: {},
+    }
+
+    onDayPress(day)
+     {
+        this.setState
+        (
+            {
+                selected: day.dateString
+            }
+        );
+        alert (this.selected);
+    }
+
     render(){
 
         return (
-            <View style={styles.container}>
-                <Text>Calendrier</Text>
-            </View> 
+            <View>
+                <Calendar
+                     //onDayLongPress = {this.onDayPress(day)}
+                     minDate        = {Date.now()}
+                
+                />
+            </View>
             
         )
     }
