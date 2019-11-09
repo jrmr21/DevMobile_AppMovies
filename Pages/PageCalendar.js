@@ -4,9 +4,12 @@ import { connect } from 'react-redux'
 import FilmList from '../Components/FilmList'
 
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import Calendar_component from '../Components/Calendar_coponent'
 
 
 class PageCalendar extends React.Component {
+
+    calendarObject = new Calendar_component();
 
     static navigationOptions = {
         title: 'Calendrier',
@@ -22,10 +25,6 @@ class PageCalendar extends React.Component {
     constructor(props) 
     {
         super(props);
-    }
-
-    state = {
-        selected: {},
     }
 
     onDayPress(day)
@@ -46,6 +45,11 @@ class PageCalendar extends React.Component {
                 <Calendar
                      //onDayLongPress = {this.onDayPress(day)}
                      minDate        = {Date.now()}
+                     onDayLongPress = {day => {
+                        //alert('selected day', day.dateString );
+                        //console.log(day.dateString);
+                        this.calendarObject._SaveEvents("jrmr first", day.dateString);
+                      }}
                 
                 />
             </View>

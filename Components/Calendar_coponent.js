@@ -48,7 +48,7 @@ try {
 _fetchAllEvents = async () => {
 try {
   let allEvents = await RNCalendarEvents.fetchAllEvents(
-    "2019-11-19T19:26:00.000Z",
+    
     "2019-20-19T19:26:00.000Z"
   );
   console.log(allEvents);
@@ -58,23 +58,21 @@ try {
 }
 };
 
-/* 
-_SaveEvents = async () => {
 
-this.setState({ date_to_save : JSON.parse("startday:",'2019-15-11T19:26:00.000Z', "endday:", '2019-16-11T20:26:00.000Z')});
+_SaveEvents = async (name_event , date_to_save) => {
 
 try 
 {
-  let allEvents = await RNCalendarEvents.saveEvent('JRMR save', {
-    startDate: this.state.date_to_save.startday,
-    endDate: this.state.date_to_save.endday,
+  let allEvents = await RNCalendarEvents.saveEvent(name_event, {
+    startDate: date_to_save + "T08:00:00.000Z",
+    endDate: date_to_save + "T08:10:00.000Z",
   }) 
-  console.log(allEvents);
+  //console.log(allEvents);"2019-11-19T19:26:00.000Z",
   Alert.alert("Succes save", JSON.stringify(allEvents));
 } catch (error) {
   Alert.alert("Failed to save events");
 }
-};*/
+};
 
 
 }
