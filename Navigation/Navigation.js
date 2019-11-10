@@ -10,14 +10,31 @@ import { Image, StyleSheet } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
+
+const FilmDetailNavigator = createStackNavigator(
+    {
+        FilmDetail: {
+            screen: FilmDetail,
+        },
+        PageCalendar: {
+            screen: PageCalendar,
+        },
+    },
+    {
+        initialRouteName    : 'FilmDetail',
+    }
+);
+
+
+
 const HomeStackNavigator = createStackNavigator({
     PageHome: {
         screen: PageHome,
     },
     FilmDetail: {
-        screen: FilmDetail,
-    }
-
+        screen: FilmDetailNavigator,
+    },
 })
 
 const SearchNavigator = createStackNavigator({
@@ -27,9 +44,8 @@ const SearchNavigator = createStackNavigator({
         screen: PageSearch,
     },
     FilmDetail: {
-        screen: FilmDetail,
-    }
-
+        screen: FilmDetailNavigator,
+    },
 });
 
 const FavoritesStackNavigator = createStackNavigator({
@@ -38,8 +54,8 @@ const FavoritesStackNavigator = createStackNavigator({
         screen: PageFavorites,
     },
     FilmDetail: {
-        screen: FilmDetail
-    }
+        screen: FilmDetailNavigator,
+    },
 })
 
 

@@ -68,7 +68,7 @@ try
     endDate: date_to_save + "T08:10:00.000Z",
   }) 
   //console.log(allEvents);"2019-11-19T19:26:00.000Z",
-  Alert.alert("Succes save", JSON.stringify(allEvents));
+  Alert.alert("Succes save");
 } catch (error) {
   Alert.alert("Failed to save events");
 }
@@ -76,25 +76,3 @@ try
 
 
 }
-
-/* <Calendar
-      onChange={this.onChange}
-      value={this.state.date}
-      <Button
-      title={"Get Calendar Status"}
-      onPress={this._getCalendarStatus}
-    />
-    <Button
-      title={"Request Calendar Permission"}
-      onPress={this._requestCalendarPermissions}
-    />
-    <Button
-      title={"Get Available Calendars"}
-      onPress={this._getCalendars}
-    />
-    <Button
-      title={"SAVE date"}
-      onPress={this._SaveEvents }
-    />
-    <Button title={"Fetch All Events"} onPress={this._fetchAllEvents} />
-    />*/

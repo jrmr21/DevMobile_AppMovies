@@ -86,6 +86,7 @@ class FilmDetail extends React.Component {
           <TouchableOpacity style={styles.share_touchable} onPress={() => this._shareFilm()} >
             <Icon size={30} color="#FFF" name={'ios-share-alt'} />
           </TouchableOpacity>
+
         </ShareAnimated>
       )
     }
@@ -299,9 +300,19 @@ class FilmDetail extends React.Component {
             />
 
             <Text style={styles.title_text}>{film.title}</Text>
-            <TouchableOpacity style={styles.favorite_container} title="Favoris" onPress={() => this._toggleFavorite()}>
-              {this._displayFavoriteImage()}
-            </TouchableOpacity>
+
+            <View style={styles.favorite_container} >
+              <TouchableOpacity title="Favoris" onPress={() => this._toggleFavorite()}>
+                {this._displayFavoriteImage()}
+              </TouchableOpacity>
+              <TouchableOpacity  title="Calendar"  onPress={()=> this.props.navigation.navigate('PageCalendar' , 
+              { 
+                itemId: 86, film_name : film.title } )
+              }>
+                <Icon name="md-calendar" color='white' size={42}/>   
+              </TouchableOpacity>
+            </View>
+
             {this._displayRateFilm()}
             <Text style={styles.description_text}>{film.overview}</Text>
             <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
@@ -387,7 +398,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#383838'
   },
   favorite_container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1, 
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   favorite_image: {
     width: 40,

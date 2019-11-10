@@ -25,30 +25,32 @@ class PageCalendar extends React.Component {
     constructor(props) 
     {
         super(props);
+
+        this.state = {
+            movieEvent : "404",
+        }
     }
 
-    onDayPress(day)
-     {
-        this.setState
-        (
+
+    async componentDidMount ()
+    {
+        await this.setState( 
             {
-                selected: day.dateString
+                movieEvent : this.props.navigation.getParam('film_name', 'NO-ID')
             }
         );
-        alert (this.selected);
     }
+    
 
     render(){
-
         return (
             <View>
                 <Calendar
-                     //onDayLongPress = {this.onDayPress(day)}
-                     minDate        = {Date.now()}
-                     onDayLongPress = {day => {
-                        //alert('selected day', day.dateString );
-                        //console.log(day.dateString);
-                        this.calendarObject._SaveEvents("jrmr first", day.dateString);
+                                        // minimal date to create Event
+                     minDate        = { Date.now() }
+
+                     onDayPress     = {day => {
+                        this.calendarObject._SaveEvents(this.state.movieEvent , day.dateString);
                       }}
                 
                 />

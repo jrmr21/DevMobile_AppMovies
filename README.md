@@ -46,6 +46,9 @@ build android app :
 - sudo react-native run-android
 - npx react-native run-android
 
+ou 
+
+- ./gradlew assembleRelease
 
 
 	comment build la librairie Calendar event sous react 0.59.10:
@@ -69,7 +72,7 @@ build android app :
 	npx jetify
 
 - Puis recompiler les ressources avec 
-	./gradlew assembleRelease
+	./gradlew
 
 - Enfin compiler votre application avec 
 	react-native run-android
