@@ -1,9 +1,7 @@
-import React, {Component} from 'react'
-import {Text,StyleSheet,View} from 'react-native'
+import React from 'react'
+import {StyleSheet,View} from 'react-native'
 import { connect } from 'react-redux'
-import FilmList from '../Components/FilmList'
-
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import Calendar_component from '../Components/Calendar_coponent'
 
 
@@ -36,7 +34,7 @@ class PageCalendar extends React.Component {
     {
         await this.setState( 
             {
-                movieEvent : this.props.navigation.getParam('film_name', 'NO-ID')
+                movieEvent : this.props.navigation.getParam('film_name', '404')
             }
         );
     }
@@ -48,11 +46,9 @@ class PageCalendar extends React.Component {
                 <Calendar
                                         // minimal date to create Event
                      minDate        = { Date.now() }
-
                      onDayPress     = {day => {
                         this.calendarObject._SaveEvents(this.state.movieEvent , day.dateString);
                       }}
-                
                 />
             </View>
             

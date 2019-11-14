@@ -45,7 +45,7 @@ try {
 }
 };
 
-_fetchAllEvents = async () => {
+/*_fetchAllEvents = async () => {
 try {
   let allEvents = await RNCalendarEvents.fetchAllEvents(
     
@@ -56,7 +56,7 @@ try {
 } catch (error) {
   Alert.alert("Failed to get events");
 }
-};
+};*/
 
 
 _SaveEvents = async (name_event , date_to_save) => {
@@ -67,10 +67,10 @@ try
     startDate: date_to_save + "T08:00:00.000Z",
     endDate: date_to_save + "T08:10:00.000Z",
   }) 
-  //console.log(allEvents);"2019-11-19T19:26:00.000Z",
-  Alert.alert("Succes save");
+    //console.log(allEvents);"2019-11-19T19:26:00.000Z",
+  Alert.alert("Succes save \n" + name_event + " the " + date_to_save);
 } catch (error) {
-  Alert.alert("Failed to save events");
+  Alert.alert("Failed to save events..");
 }
 };
 

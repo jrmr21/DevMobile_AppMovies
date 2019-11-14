@@ -41,6 +41,9 @@ class PageHome extends React.Component {
         this.props.navigation.navigate('FilmDetail', { idFilm: idFilm, choix: 0 })
       } 
 
+    voirPlus = () => {
+        this.props.navigation.navigate('Search')
+      }
 
     render(){
 
@@ -55,7 +58,9 @@ class PageHome extends React.Component {
                     <View style={styles.film_groupe}>            
                          <View style={styles.film_groupe_header}>
                              <Text style={styles.text1} >Films d'aventure</Text>
-                             <Text style={styles.text2}>Voir plus</Text>
+                             <TouchableOpacity onPress={()=>{this.voirPlus()}} style={styles.text2}>
+                                <Text style={styles.text2}>Voir plus</Text>
+                            </TouchableOpacity>
                          </View> 
                          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.film_groupe_body}>
                             <TouchableOpacity onPress={()=>{this.displayDetailForFilm(this.state.films[0].id)}}>
@@ -88,7 +93,9 @@ class PageHome extends React.Component {
                     <View style={styles.film_groupe}>            
                          <View style={styles.film_groupe_header}>
                              <Text style={styles.text1} >Films d'action</Text>
-                             <Text style={styles.text2}>Voir plus</Text>
+                             <TouchableOpacity onPress={()=>{this.voirPlus()}} style={styles.text2}>
+                                <Text style={styles.text2}>Voir plus</Text>
+                            </TouchableOpacity>
                          </View> 
                          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.film_groupe_body}>
                             <TouchableOpacity onPress={()=>{this.displayDetailForFilm(this.state.films[3].id)}}>
@@ -121,7 +128,9 @@ class PageHome extends React.Component {
                     <View style={styles.film_groupe}>            
                          <View style={styles.film_groupe_header}>
                              <Text style={styles.text1} >Films drole</Text>
-                             <Text style={styles.text2}>Voir plus</Text>
+                             <TouchableOpacity onPress={()=>{this.voirPlus()}} style={styles.text2}>
+                                <Text style={styles.text2}>Voir plus</Text>
+                            </TouchableOpacity>
                          </View> 
                          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.film_groupe_body}>
                             <TouchableOpacity onPress={()=>{this.displayDetailForFilm(this.state.films[6].id)}}>

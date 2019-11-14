@@ -6,7 +6,7 @@ import FilmDetail from '../Components/FilmDetail'
 import PageFavorites from '../Pages/PageFavorites'
 import PageHome from '../Pages/PageHome'
 import PageCalendar from '../Pages/PageCalendar'
-import { Image, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -59,11 +59,12 @@ const FavoritesStackNavigator = createStackNavigator({
 })
 
 
+/*
 const CalendarStackNavigator = createStackNavigator({
     PageCalendar: {
         screen: PageCalendar,
     },
-})
+})*/
 
 const MoviesTabNavigator = createBottomTabNavigator(
     {
@@ -91,14 +92,14 @@ const MoviesTabNavigator = createBottomTabNavigator(
                 }
             }
         },
-        Calendar: {
+        /*Calendar: {
             screen: CalendarStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Icon size={25} color={styles.iconColor.color} name={'ios-calendar'} />
                 }
             }
-        }
+        }*/
     },
     {
         tabBarOptions: {

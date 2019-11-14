@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/jrmr/tmp_react/final/DevMobile_AppMovies/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-et/values-et.xml",
+            "outputFile": "/home/jrmr/tmp_react/test1/DevMobile_AppMovies/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-et/values-et.xml",
             "map": [
                 {
                     "source": "/root/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/45c4d78e33d31b0beea5bebac3f6cea9/res/values-et/values.xml",

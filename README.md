@@ -27,15 +27,21 @@ GROUPE : Jason Coltier, Jérémie Robles, wafo fotso ulrich kevin
 
 
 
+
+procedure d'installation du projet :
+
+- Etape 1 : après avoir clone le projet, veuillez lancer "npm install"
+
+
 petite note :
 
-
-generate android folder :
+pour generer le dossier android :
 - npm run eject
 
 
-installation linux 
 {
+	installation linux 
+
 	Dans le dossier "local.proprieties" affectez la variable sdk.dir sur le chemin de votre
 	fichier Sdk Android sur comme ci dessous :
 	
@@ -46,7 +52,7 @@ build android app :
 - sudo react-native run-android
 - npx react-native run-android
 
-ou 
+ou (pour generer l'apk) 
 
 - ./gradlew assembleRelease
 
@@ -61,26 +67,25 @@ ou
 
 		. import android.support.v4.app.ActivityCompat;
 		. import android.support.v4.content.ContextCompat;
-	en 
+	en
+ 
 		. import androidx.core.app.ActivityCompat;
 		. import androidx.core.content.ContextCompat;
 
 - Veuillez netoyer les ressources graddle avec la commande
 	./gradlew clean
 
-- Dans le dossier root executez la commande ci dessous pour mettre a jour les dépendances
+- Dans le dossier root, avant de compiler votre application avec la commande ci dessous, veillez
+  executez la commande ci dessous pour mettre a jour les dépendances :
 	npx jetify
 
-- Puis recompiler les ressources avec 
-	./gradlew
-
-- Enfin compiler votre application avec 
+- Pour lancer votre application veuillez utiliser cette commande :  
 	react-native run-android
 
 (source de l'issues : https://github.com/jsierles/react-native-audio/issues/335 )
 
 
-clear cache :
+pour nettoyer votre projet :
 
 
   1. Clear watchman watches: `watchman watch-del-all`.
