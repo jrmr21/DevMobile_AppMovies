@@ -68,7 +68,7 @@ try
     endDate: date_to_save + "T08:10:00.000Z",
   }) 
     //console.log(allEvents);"2019-11-19T19:26:00.000Z",
-  Alert.alert("Succes save \n" + name_event + " the " + date_to_save);
+  Alert.alert(name_event + "\nEnregistré pour le: " + date_to_save);
 } catch (error) {
   Alert.alert("Failed to save events..");
 }
