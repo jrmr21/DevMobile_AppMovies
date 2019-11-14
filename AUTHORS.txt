@@ -1,0 +1,24 @@
+﻿SOUTENANCE DE FIN DE PROJET
+
+
+Intitulé du projet: Movies & Me
+
+
+Les participants:
+
+
+Jason Coltier (chef de groupe)
+Wafo Fotso Ulrich Kevin 
+Jérémie Robles    
+
+
+Les responsabilités des membres:
+
+
+Jason Coltier: mise en place du redux (ajout, modification et suppression dans le storage), notation des films favoris(page favoris)
+
+
+Jérémie Robles: conversion du projet de CRNA en natif, mise en place du calendrier(ajout des films dans le calendrier), gestion du github
+
+
+Wafo Fotso Ulrich Kevin: Mise en place de l’Api(The movie Database), les navigations, les recherches de films par critère(page home, page search), animations
