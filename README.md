@@ -23,7 +23,8 @@ utiliser le calendrier pour ajouter une date de film à voir et recevoir les rap
 et éventuellement de partager un film (SMS) et d'utiliser le shake pour trouver un film aléatoire
 GROUPE : Jason Coltier, Jérémie Robles, wafo fotso ulrich kevin
 
-
+Voici le lien de la présentation du projet :
+	https://docs.google.com/presentation/d/1v8EWK86qYdfQWyew18MpYeSYLocC4NABBvbnqAZw2zc/edit#slide=id.p
 
 
 
