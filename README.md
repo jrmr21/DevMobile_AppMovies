@@ -43,11 +43,11 @@ procedure d'installation du projet :
 		. import androidx.core.app.ActivityCompat;
 		. import androidx.core.content.ContextCompat;
 
-- Etape 3 : Lancer la commande "npx jetify"
+- Etape 3 : Lancer la commande "npx jetify" afin de mettre à jour les composant de "node_modules" en Android.
 
 - Etape 4 : Lancer votre application sur votre téléphone Android via cette commande "react-native run-android"
-(si le sdk est introuvable, veuillez changer le chemin d'acces dans le fichier local.proprieties du dossier android)
-
+ ( error 1: si le sdk est introuvable, veuillez changer le chemin d'acces dans le fichier local.proprieties du dossier android)
+ ( error 2: si le projet compile mais ne s'execute pas sur votre mobile, veuillez relancer l'application avec la commande)
 
 
 
