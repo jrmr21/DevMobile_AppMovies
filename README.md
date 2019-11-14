@@ -30,10 +30,35 @@ GROUPE : Jason Coltier, Jérémie Robles, wafo fotso ulrich kevin
 
 procedure d'installation du projet :
 
-- Etape 1 : après avoir clone le projet, veuillez lancer "npm install"
+- Etape 1 : Après avoir clone le projet, veuillez lancer "npm install"
+
+- Etape 2 : Ensuite allez dans le dossier "./node_modules/react-native-calendar-events/android/src/main/java/com/calendarevents/CalendarEvents.java"
+
+	et changer 
+
+		. import android.support.v4.app.ActivityCompat;
+		. import android.support.v4.content.ContextCompat;
+	en
+ 
+		. import androidx.core.app.ActivityCompat;
+		. import androidx.core.content.ContextCompat;
+
+- Etape 3 : Lancer la commande "npx jetify"
+
+- Etape 4 : Lancer votre application sur votre téléphone Android via cette commande "react-native run-android"
+(si le sdk est introuvable, veuillez changer le chemin d'acces dans le fichier local.proprieties du dossier android)
 
 
-petite note :
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+ma petite note :
 
 pour generer le dossier android :
 - npm run eject
@@ -86,7 +111,6 @@ ou (pour generer l'apk)
 
 
 pour nettoyer votre projet :
-
 
   1. Clear watchman watches: `watchman watch-del-all`.
   2. Delete the `node_modules` folder: `rm -rf node_modules && npm install`.
